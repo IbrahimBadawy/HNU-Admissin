@@ -4,8 +4,8 @@ import messages from '@intlify/unplugin-vue-i18n/messages';
 export default createI18n({
     legacy: false,
     allowComposition: true,
-    locale: 'en',
+    locale: 'ae',
     globalInjection: true,
-    fallbackLocale: 'en',
+    fallbackLocale: 'ae',
     messages,
 });

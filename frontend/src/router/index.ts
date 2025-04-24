@@ -10,8 +10,36 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/analytics',
         name: 'analytics',
-        component: () => import(/* webpackChunkName: "analytics" */ '../views/analytics.vue'),
+        component: () => import( '../views/analytics.vue'),
     },
+
+
+    // authentication
+    {
+        path: '/auth/signin',
+        name: 'boxed-signin',
+        component: () => import(/* webpackChunkName: "auth-boxed-signin" */ '../views/auth/boxed-signin.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/signup',
+        name: 'boxed-signup',
+        component: () => import(/* webpackChunkName: "auth-boxed-signup" */ '../views/auth/boxed-signup.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/lockscreen',
+        name: 'boxed-lockscreen',
+        component: () => import(/* webpackChunkName: "auth-boxed-lockscreen" */ '../views/auth/boxed-lockscreen.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/password-reset',
+        name: 'boxed-password-reset',
+        component: () => import(/* webpackChunkName: "auth-boxed-password-reset" */ '../views/auth/boxed-password-reset.vue'),
+        meta: { layout: 'auth' },
+    },
+
 ];
 
 const router = createRouter({

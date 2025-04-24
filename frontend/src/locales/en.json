@@ -125,5 +125,14 @@
     "coming_soon_cover": "Coming Soon Cover",
     "contact_us_boxed": "Contact Us Boxed",
     "contact_us_cover": "Contact Us Cover",
-    "rights_reserved": "All rights reserved - Communications and Information Technology Center - Helwan University"
+    "rights_reserved": "All rights reserved - Communications and Information Technology Center - Helwan University",
+    "Signin_title": "Sign in",
+    "Signin_massage": "Enter your email and password to login",
+    "Signin_email": "Email",
+    "Signin_email_place": "Enter Email",
+    "Signin_password": "Password",
+    "Signin_password_place": "Enter Password",
+    "Signin_or": "Or",
+    "Signin_dont": "Don't have an account ?",
+    "Signup_title": "SIGN UP"
 }

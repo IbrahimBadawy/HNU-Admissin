@@ -64,6 +64,7 @@ module.exports = {
             },
             fontFamily: {
                 nunito: ['Nunito', 'sans-serif'],
+                almarai: ['Almarai', 'sans-serif'],
             },
             spacing: {
                 4.5: '18px',

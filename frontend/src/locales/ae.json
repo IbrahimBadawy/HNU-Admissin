@@ -125,5 +125,18 @@
     "coming_soon_cover": "قريبا تغطية",
     "contact_us_boxed": "اتصل بنا محاصر",
     "contact_us_cover": "اتصل بنا الغلاف",
-    "rights_reserved": "جميع الحقوق محفوظة - مركز الاتصالات وتكنلوجيا المعلومات - جامعة حلوان"
+    "rights_reserved": "جميع الحقوق محفوظة - مركز الاتصالات وتكنلوجيا المعلومات - جامعة حلوان",
+    "Signin_title": "تسجيل الدخول",
+    "Signin_massage": "أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول",
+    "Signin_email": "البريد الالكتروني",
+    "Signin_email_place": "ادخل البرريد الالكتروني",
+    "Signin_password": "الرقم السري",
+    "Signin_password_place": "ادخل الرقم السري",
+    "Signin_or": "أو",
+    "Signin_dont": "ليس لدي حساب ؟",
+    "Signup_title": "إنشاء حساب جديد",
+    "Signup_name": "الاسم",
+    "Signup_name_place": "ادخل الاسم",
+    "Signup_massage": "أدخل بريدك الإلكتروني وكلمة المرور للتسجيل",
+    "Signup_dont": "لديك حساب بالفعل ؟"
 }

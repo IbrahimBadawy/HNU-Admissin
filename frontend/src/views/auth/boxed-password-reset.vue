@@ -15,7 +15,7 @@
                 class="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]"
             >
                 <div class="relative flex flex-col justify-center rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 px-6 lg:min-h-[758px] py-20">
-                    <div class="absolute top-6 end-6">
+                    <!-- <div class="absolute top-6 end-6">
                         <div class="dropdown">
                             <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8">
                                 <button
@@ -53,25 +53,24 @@
                                 </template>
                             </Popper>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="mx-auto w-full max-w-[440px]">
                         <div class="mb-7">
-                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">Password Reset</h1>
-                            <p>Enter your email to recover your ID</p>
+                            <h1 class="mb-3 text-2xl font-bold !leading-snug dark:text-white">استعادة كلمة المرور</h1>
+                            <p>أدخل بريدك الإلكتروني لاستعادة حسابك</p>
                         </div>
                         <form class="space-y-5" @submit.prevent="router.push('/')">
                             <div>
-                                <label for="Email" class="dark:text-white">Email</label>
+                                <label for="Email" class="dark:text-white">البريد الالكتروني</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" type="email" placeholder="Enter Email" class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input id="Email" type="email" placeholder="أدخل بريدك الالكتروني" class="form-input ps-10 placeholder:text-white-dark" />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
                                     </span>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                RECOVER
-                            </button>
+                                استعادة كلمة المرور                            </button>
                         </form>
                     </div>
                 </div>
@@ -90,7 +89,7 @@
     import IconCaretDown from '@/components/icon/icon-caret-down.vue';
     import IconMail from '@/components/icon/icon-mail.vue';
 
-    useMeta({ title: 'Reset Password Boxed' });
+    useMeta({ title: 'استعادة كلمة المرور' });
     const router = useRouter();
     const store = useAppStore();
     // multi language
