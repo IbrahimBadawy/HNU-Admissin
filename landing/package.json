@@ -1,0 +1,26 @@
+{
+  "name": "dizme-update",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "isotope-layout": "^3.0.6",
+    "swiper": "^8.1.6",
+    "vanilla-tilt": "^1.8.1",
+    "vue": "^3.5.13",
+    "vue-awesome-swiper": "^5.0.1",
+    "vue-js-counter": "^1.0.3",
+    "vue-router": "^4.5.0",
+    "wow.js": "^1.2.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "vite": "^6.0.11",
+    "vite-plugin-vue-devtools": "^7.7.0"
+  }
+}
