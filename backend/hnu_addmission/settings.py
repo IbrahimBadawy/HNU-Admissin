@@ -13,12 +13,13 @@ sys.path.insert(0, os.path.join(BASE_DIR, "apps"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-&agc+afay27@3jw=6h95*lmhaw%&$ye**%!=zc=yninnl^7t^a"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "change-me-in-production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["admission.hnu.edu.eg", "127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -126,7 +127,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
