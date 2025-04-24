@@ -7,6 +7,11 @@ import HomeView from '../views/index.vue';
 const routes: RouteRecordRaw[] = [
     // dashboard
     { path: '/', name: 'home', component: HomeView },
+    {
+        path: '/analytics',
+        name: 'analytics',
+        component: () => import(/* webpackChunkName: "analytics" */ '../views/analytics.vue'),
+    },
 ];
 
 const router = createRouter({
