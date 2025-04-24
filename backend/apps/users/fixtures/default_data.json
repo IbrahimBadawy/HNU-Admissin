@@ -1,0 +1,9 @@
+[
+  {
+    "model": "users.University",
+    "pk": 10,
+    "fields": {
+      "name": "AAA"
+    }
+  }
+]

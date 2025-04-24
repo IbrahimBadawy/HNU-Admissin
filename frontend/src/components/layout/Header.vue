@@ -344,8 +344,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- horizontal menu -->
         </div>
     </header>
 </template>

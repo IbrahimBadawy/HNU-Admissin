@@ -2,6 +2,28 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(default="User", max_length=200, null=True)
+
+    class UserType(models.TextChoices):
+        STUDENT = "STUDENT", "طالب"
+        COORDINATOR = "COORDINATOR", "منسق"
+        ADMIN = "ADMIN", "مشرف"
+
+    user_type = models.CharField(
+        max_length=20,
+        choices=UserType.choices,
+        default=UserType.STUDENT,
+    )
+    profile_img = models.ImageField(
+        default="images/default.png", upload_to="images", null=True, blank=True
+    )
+
+    def __str__(self):
+        return self.name
+
+
 # ---------------------------
 # المؤسسات التعليمية
 # ---------------------------
@@ -77,31 +99,3 @@ class UserDataAccess(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.university or ''} - {self.faculty or ''} - {self.program or ''}"
-
-
-# ---------------------------
-# فلترة البرامج المتاحة لمستخدم
-# ---------------------------
-def get_user_allowed_programs(user):
-    access = UserDataAccess.objects.filter(user=user).select_related(
-        "university", "faculty", "program"
-    )
-    program_ids = set()
-
-    for a in access:
-        if a.university and not a.faculty:
-            programs = Program.objects.filter(
-                faculty__university=a.university
-            ).values_list("id", flat=True)
-        elif a.university and a.faculty and not a.program:
-            programs = Program.objects.filter(
-                faculty=a.faculty, faculty__university=a.university
-            ).values_list("id", flat=True)
-        elif a.university and a.faculty and a.program:
-            programs = [a.program.id]
-        else:
-            programs = []
-
-        program_ids.update(programs)
-
-    return list(program_ids)

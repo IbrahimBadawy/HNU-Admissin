@@ -8,6 +8,9 @@ class UniversityAdmin(admin.ModelAdmin):
     list_display = ("id", "name")
 
 
+admin.site.register(Profile)
+
+
 @admin.register(Faculty)
 class FacultyAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "university")
