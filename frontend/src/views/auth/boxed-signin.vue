@@ -59,11 +59,17 @@
                             <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">تسجيل الدخول</h1>
                             <p class="text-base font-bold leading-normal text-white-dark">أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول</p>
                         </div>
-                        <form class="space-y-5 dark:text-white" @submit.prevent="router.push('/')">
+                        <form class="space-y-5 dark:text-white" @submit.prevent="handleLogin">
                             <div>
-                                <label for="Email">البريد الالكتروني</label>
+                                <label for="Username">اسم المستخدم</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Email" type="email" placeholder="أدخل البريد الالكتروني" class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input
+                                        v-model="username"
+                                        id="Username"
+                                        type="text"
+                                        placeholder="أدخل اسم المستخدم"
+                                        class="form-input ps-10 placeholder:text-white-dark"
+                                    />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-mail :fill="true" />
                                     </span>
@@ -72,7 +78,13 @@
                             <div>
                                 <label for="Password">الرقم السري</label>
                                 <div class="relative text-white-dark">
-                                    <input id="Password" type="password" placeholder="أدخل الرقم السري" class="form-input ps-10 placeholder:text-white-dark" />
+                                    <input
+                                        v-model="password"
+                                        id="Password"
+                                        type="password"
+                                        placeholder="أدخل الرقم السري"
+                                        class="form-input ps-10 placeholder:text-white-dark"
+                                    />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-lock-dots :fill="true" />
                                     </span>
@@ -82,6 +94,7 @@
                             <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                 تسجيل الدخول
                             </button>
+                            <p v-if="authStore.error" class="text-red-500 text-sm mt-2">{{ authStore.error }}</p>
                         </form>
                         <div class="relative my-7 text-center md:mb-9">
                             <span class="absolute inset-x-0 top-1/2 h-px w-full -translate-y-1/2 bg-white-light dark:bg-white-dark"></span>
@@ -90,7 +103,7 @@
 
                         <div class="text-center dark:text-white">
                             ليس لديك حساب ؟
-                            <router-link to="/auth/boxed-signup" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                            <router-link to="/auth/signup" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
                                 إنشاء حساب جديد
                             </router-link>
                         </div>
@@ -101,12 +114,13 @@
     </div>
 </template>
 <script lang="ts" setup>
-    import { computed, reactive } from 'vue';
+    import { ref, computed, reactive } from 'vue';
     import { useI18n } from 'vue-i18n';
     import appSetting from '@/app-setting';
     import { useAppStore } from '@/stores/index';
     import { useRouter } from 'vue-router';
     import { useMeta } from '@/composables/use-meta';
+    import { useAuthStore } from '@/stores/auth';
 
     import IconCaretDown from '@/components/icon/icon-caret-down.vue';
     import IconMail from '@/components/icon/icon-mail.vue';
@@ -117,7 +131,10 @@
     import IconGoogle from '@/components/icon/icon-google.vue';
 
     useMeta({ title: 'تسجيل الدخول' });
+    const username = ref('');
+    const password = ref('');
     const router = useRouter();
+    const authStore = useAuthStore();
 
     const store = useAppStore();
     // multi language
@@ -126,6 +143,14 @@
         i18n.locale = item.code;
         appSetting.toggleLanguage(item);
     };
+
+    const handleLogin = async () => {
+        await authStore.login(username.value, password.value);
+        if (authStore.token) {
+            router.push('/dashboard'); // غيّر المسار حسب المطلوب
+        }
+    };
+
     const currentFlag = computed(() => {
         return `/assets/images/flags/${i18n.locale.toUpperCase()}.svg`;
     });

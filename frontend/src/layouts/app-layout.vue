@@ -48,7 +48,7 @@
         </div>
 
         <!-- BEGIN APP SETTING LAUNCHER -->
-        <Setting />
+        <!-- <Setting /> -->
         <!-- END APP SETTING LAUNCHER -->
 
         <div class="main-container text-black dark:text-white-dark min-h-screen" :class="[store.navbar]">
@@ -81,10 +81,14 @@
     import Footer from '@/components/layout/Footer.vue';
     import Setting from '@/components/ThemeCustomizer.vue';
     import appSetting from '@/app-setting';
+    import { useAuthStore } from '@/stores/auth';
+    import { useRouter } from 'vue-router';
 
     import { useAppStore } from '@/stores/index';
     const store = useAppStore();
     const showTopButton = ref(false);
+    const authStore = useAuthStore();
+    const router = useRouter();
     onMounted(() => {
         window.onscroll = () => {
             if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {

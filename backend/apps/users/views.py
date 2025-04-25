@@ -1,5 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from .models import Program
 from .serializers import *
 from .permissions import *
@@ -50,3 +56,19 @@ class UniversityViewSet(viewsets.ModelViewSet):
         return University.objects.filter(
             faculty__program__id__in=allowed_programs
         ).distinct()
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class SignupView(APIView):
+    def post(self, request):
+        username = request.data.get("username")
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, status=400)
+
+        user = User.objects.create_user(
+            username=username, email=email, password=password
+        )
+        return Response({"message": "User created successfully"}, status=201)

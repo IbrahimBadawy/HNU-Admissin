@@ -83,64 +83,6 @@
                             <icon-search class="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                         </button>
                     </div>
-                    <div>
-                        <a
-                            href="javascript:;"
-                            v-show="store.theme === 'light'"
-                            class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            @click="store.toggleTheme('dark')"
-                        >
-                            <icon-sun />
-                        </a>
-                        <a
-                            href="javascript:;"
-                            v-show="store.theme === 'dark'"
-                            class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            @click="store.toggleTheme('system')"
-                        >
-                            <icon-moon />
-                        </a>
-                        <a
-                            href="javascript:;"
-                            v-show="store.theme === 'system'"
-                            class="flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            @click="store.toggleTheme('light')"
-                        >
-                            <icon-laptop />
-                        </a>
-                    </div>
-
-                    <div class="dropdown shrink-0">
-                        <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8" class="align-middle">
-                            <button
-                                type="button"
-                                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            >
-                                <img :src="currentFlag" alt="flag" class="w-5 h-5 object-cover rounded-full" />
-                            </button>
-                            <template #content="{ close }">
-                                <ul class="!px-2 text-dark dark:text-white-dark grid grid-cols-2 gap-2 font-semibold dark:text-white-light/90 w-[280px]">
-                                    <template v-for="item in store.languageList" :key="item.code">
-                                        <li>
-                                            <button
-                                                type="button"
-                                                class="w-full hover:text-primary"
-                                                :class="{ 'bg-primary/10 text-primary': i18n.locale === item.code }"
-                                                @click="changeLanguage(item), close()"
-                                            >
-                                                <img
-                                                    class="w-5 h-5 object-cover rounded-full"
-                                                    :src="`/assets/images/flags/${item.code.toUpperCase()}.svg`"
-                                                    alt=""
-                                                />
-                                                <span class="ltr:ml-3 rtl:mr-3">{{ item.name }}</span>
-                                            </button>
-                                        </li>
-                                    </template>
-                                </ul>
-                            </template>
-                        </Popper>
-                    </div>
 
                     <div class="dropdown shrink-0">
                         <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8" class="align-middle">
@@ -332,11 +274,10 @@
                                         </router-link>
                                     </li>
                                     <li class="border-t border-white-light dark:border-white-light/10">
-                                        <router-link to="/auth/boxed-signin" class="text-danger !py-3" @click="close()">
+                                        <a href="#" class="text-danger !py-3 flex items-center" @click.prevent="handleLogOut">
                                             <icon-logout class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
-
                                             Sign Out
-                                        </router-link>
+                                        </a>
                                     </li>
                                 </ul>
                             </template>
@@ -355,7 +296,9 @@
     import appSetting from '@/app-setting';
 
     import { useRoute } from 'vue-router';
+    import { useRouter } from 'vue-router';
     import { useAppStore } from '@/stores/index';
+    import { useAuthStore } from '@/stores/auth';
 
     import IconMenu from '@/components/icon/icon-menu.vue';
     import IconCalendar from '@/components/icon/icon-calendar.vue';
@@ -387,7 +330,8 @@
     const store = useAppStore();
     const route = useRoute();
     const search = ref(false);
-
+    const router = useRouter();
+    const authStore = useAuthStore();
     // multi language
     const i18n = reactive(useI18n());
     const changeLanguage = (item: any) => {
@@ -515,6 +459,12 @@
 
     const removeNotification = (value: number) => {
         notifications.value = notifications.value.filter((d) => d.id !== value);
+    };
+    const handleLogOut = async () => {
+        await authStore.logout();
+        if (!authStore.token) {
+            router.push('/auth/signin'); // غيّر المسار حسب المطلوب
+        }
     };
 
     const removeMessage = (value: number) => {

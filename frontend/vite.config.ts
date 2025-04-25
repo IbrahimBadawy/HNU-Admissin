@@ -18,4 +18,9 @@ export default defineConfig({
     optimizeDeps: {
         include: ['quill'],
     },
+    server: {
+        host: true,
+        port: 5173,
+        allowedHosts: ['admission.hnu.edu.eg','localhost'], // 👈 ده المهم
+      },
 });
