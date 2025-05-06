@@ -3,7 +3,8 @@ import { jwtDecode } from 'jwt-decode';
 
 const instance = axios.create({
     // baseURL: 'http://localhost', // عدلها لو عندك سيرفر تاني
-    baseURL: 'http://admission.hnu.edu.eg:81', // عدلها لو عندك سيرفر تاني
+    // baseURL: 'http://admission.hnu.edu.eg:81', // عدلها لو عندك سيرفر تاني
+    baseURL: 'http://admission.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
 });
 
 // ✅ إرفاق التوكن تلقائيًا

@@ -18,8 +18,8 @@ SECRET_KEY = "django-insecure-&agc+afay27@3jw=6h95*lmhaw%&$ye**%!=zc=yninnl^7t^a
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "change-me-in-production")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ["admission.hnu.edu.eg", "127.0.0.1", "localhost"]
 
@@ -64,8 +64,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://admission.hnu.edu.eg:83",
     "http://admission.hnu.edu.eg:81",
     "http://admission.hnu.edu.eg",
+    "https://admission.hnu.edu.eg",
 ]
 CSRF_TRUSTED_ORIGINS = [
+    "https://admission.hnu.edu.eg",
     "http://admission.hnu.edu.eg",
     "http://admission.hnu.edu.eg:83",
     "http://admission.hnu.edu.eg:81",

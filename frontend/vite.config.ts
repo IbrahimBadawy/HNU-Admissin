@@ -29,7 +29,7 @@ export default defineConfig({
         allowedHosts: ['admission.hnu.edu.eg', 'localhost'],
         proxy: {
             '/api': {
-                target: 'http://admission.hnu.edu.eg:81',
+                target: 'http://admission.hnu.edu.eg',
                 changeOrigin: true,
             },
         }, // 👈 ده المهم

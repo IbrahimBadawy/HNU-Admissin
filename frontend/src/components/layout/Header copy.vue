@@ -397,39 +397,39 @@
     onMounted(() => {
         setActiveDropdown();
 
-        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-        const host = 'admission.hnu.edu.eg:8000';
-        const socket = new WebSocket(`${protocol}://${host}/ws/notifications/`);
+    //     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    //     const host = 'admission.hnu.edu.eg:8000';
+    //     const socket = new WebSocket(`${protocol}://${host}/ws/notifications/`);
 
-        socket.onopen = () => {
-            console.log('🔌 WebSocket connected');
-        };
+    //     socket.onopen = () => {
+    //         console.log('🔌 WebSocket connected');
+    //     };
 
-        socket.onmessage = (event) => {
-            try {
-                const data = JSON.parse(event.data);
+    //     socket.onmessage = (event) => {
+    //         try {
+    //             const data = JSON.parse(event.data);
 
-                // لو الرسالة فيها نص إشعار
-                if (data.message) {
-                    notifications.value.unshift({
-                        id: Date.now(), // ID فريد
-                        profile: 'user-profile.jpeg', // تقدر تعدله بناءً على محتوى الرسالة
-                        message: `<strong class="text-sm mr-1"> نظام</strong> ${data.message}`,
-                        time: 'الآن',
-                    });
-                }
-            } catch (e) {
-                console.error('❌ WebSocket message error:', e);
-            }
-        };
+    //             // لو الرسالة فيها نص إشعار
+    //             if (data.message) {
+    //                 notifications.value.unshift({
+    //                     id: Date.now(), // ID فريد
+    //                     profile: 'user-profile.jpeg', // تقدر تعدله بناءً على محتوى الرسالة
+    //                     message: `<strong class="text-sm mr-1"> نظام</strong> ${data.message}`,
+    //                     time: 'الآن',
+    //                 });
+    //             }
+    //         } catch (e) {
+    //             console.error('❌ WebSocket message error:', e);
+    //         }
+    //     };
 
-        socket.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
+    //     socket.onerror = (error) => {
+    //         console.error('WebSocket error:', error);
+    //     };
 
-        socket.onclose = () => {
-            console.warn('WebSocket closed');
-        };
+    //     socket.onclose = () => {
+    //         console.warn('WebSocket closed');
+    //     };
     });
 
     watch(route, (to, from) => {
