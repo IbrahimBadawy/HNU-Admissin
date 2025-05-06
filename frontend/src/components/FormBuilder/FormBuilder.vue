@@ -35,10 +35,10 @@
         try {
             const response = await axios.post('api/admissions/forms/', form.value);
             alert('تم حفظ النموذج بنجاح!');
-            console.log(response.data);
+            // console.log(response.data);
             router.push('/forms');
         } catch (error) {
-            console.error(error);
+            // console.error(error);
             alert('توجد مشكلة في حفظ النموذج!');
         }
     };
@@ -50,7 +50,7 @@
                 try {
                     const response = await axios.get(`api/admissions/forms/${id}`);
                     form.value = response.data;
-                    console.log('✅ Loaded form:', form.value);
+                    // console.log('✅ Loaded form:', form.value);
                     
                 } catch (error) {
                     console.error('❌ Error loading form:', error);

@@ -49,10 +49,21 @@
 
         <!-- زر الإرسال في وضع edit -->
         <div v-if="submission_dat" class="mt-6 flex w-full justify-center flex-row">
-            <button class="btn mr-4" v-if="is_staff" @click="toggleActive(submission_dat)" :title="submission_dat.is_locked ? 'فتح' : 'غلق'">
+            <button
+                class="btn mr-4"
+                v-if="is_staff"
+                @click="toggleActive(submission_dat)"
+                :title="submission_dat.is_locked ? 'فتح النموذج للطالب' : 'غلق النموذج للطالب'"
+            >
                 <span v-if="submission_dat.is_locked">فتح</span>
                 <span v-else>غلق</span>
             </button>
+            <div v-if="mode === 'view'" class="mr-5">
+                <button class="btn" @click="goToEdit(formId, submissionId, route.params.tabId || 1)">تعديل ✏️</button>
+            </div>
+            <div v-if="mode === 'edit' && !route.path.includes('new')" class="mr-5">
+                <button class="btn" @click="goToSave(formId, submissionId, route.params.tabId || 1)">حفظ</button>
+            </div>
             <div class="mr-5">
                 <button class="btn" @click="goToBack(formId)">عودة</button>
             </div>
@@ -114,12 +125,14 @@
             if (section.meta_data.is_visible) {
                 for (const question of section.questions) {
                     const rules = question.configs.rules || [];
-                    const q_type = question.question_type;
-                    const ans = anss[question.id];
+                    if (rules.length > 0) {
+                        const q_type = question.question_type;
+                        const ans = anss[question.id];
 
-                    const error = !!validateValue(ans, rules, q_type);
-                    // console.log(`q_type : ${q_type} role: ${JSON.stringify(error, null, 2)} ans: ${ans} error : ${error}`);
-                    allErrors.push(error);
+                        const error = !!validateValue(ans, rules, q_type);
+                        // console.log(`q_type : ${q_type} role: ${JSON.stringify(error, null, 2)} ans: ${ans} error : ${error}`);
+                        allErrors.push(error);
+                    }
                 }
             }
         }
@@ -362,6 +375,25 @@
     };
 
     const goToBack = (id) => router.push(`/submissions/${id}`);
+    const goToEdit = (f_id, s_id, t_id) => {
+        router.push(`/submissions/${f_id}/${s_id}/edit/${t_id}`);
+        mode.value = 'edit';
+    };
+    const goToSave = async (f_id, s_id, t_id) => {
+        const payload = {
+            form: form.value.id,
+            answers: Object.entries(answers).map(([question, answer_text]) => ({
+                question,
+                answer_text: Array.isArray(answer_text) ? JSON.stringify(answer_text) : answer_text,
+            })),
+        };
+        const res = await axios.post('api/admissions/submissions/', payload);
+        formId.value = res.data.form;
+        submissionId.value = res.data.id;
+
+        router.push(`/submissions/${f_id}/${s_id}/${t_id}`);
+        mode.value = 'view';
+    };
     onMounted(async () => {
         await fetchForm();
         updateSectionVisibility();

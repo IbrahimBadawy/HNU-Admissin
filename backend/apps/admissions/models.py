@@ -77,11 +77,19 @@ class Option(models.Model):
 
 
 class FormSubmission(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'تحت المراجعة'),
+        ('accepted', 'تم القبول'),
+        ('rejected', 'تم الرفض'),
+        ('noted', 'توجد ملاحظات'),
+    ]
     form = models.ForeignKey(Form, related_name="submissions", on_delete=models.CASCADE)
     user_identifier = models.CharField(max_length=255, null=True, blank=True)  # 🔥 New
     is_locked = models.BooleanField(default=False)  # 🔥 الحقل الجديد
     meta_data = models.JSONField(default=dict, blank=True)
     is_archived = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    notes = models.TextField(blank=True, null=True)
 
 
     modified_at = models.DateTimeField(auto_now=True)

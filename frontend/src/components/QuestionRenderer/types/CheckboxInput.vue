@@ -1,5 +1,5 @@
 <template>
-    <div v-if="options.length > 0">
+    
         <div v-if="mode === 'edit'">
             <label v-for="opt in options" :key="opt.title" class="block">
                 <div v-if="!opt.meta_data.is_locked">
@@ -31,7 +31,7 @@
         <div v-else>
             <Validator :rules="configs.rules || []" :questionType="'checkbox'" @update:rules="(val) => (configs.rules = val)" />
         </div>
-    </div>
+
 </template>
 
 <script setup>

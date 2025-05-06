@@ -80,6 +80,7 @@
             { value: 'required', label: 'حقل مطلوب' },
             { value: 'minLength', label: 'لا يقل عن' },
             { value: 'maxLength', label: 'لا يزيد عن' },
+            { value: 'equal', label: 'يساوي' },
             { value: 'regex', label: 'Regex' },
         ],
         OptionsComp: [

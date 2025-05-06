@@ -129,7 +129,7 @@
             props.configs.rules = props.configs.rules.filter((rule) => rule.type !== 'required');
         }
 
-        console.log(props.configs.rules);
+        // console.log(props.configs.rules);
     }
     function changeSelectedValue(val, tab) {
         if (!tab.meta_data) tab.meta_data = {};

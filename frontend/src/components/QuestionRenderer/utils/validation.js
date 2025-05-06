@@ -9,6 +9,9 @@ export function validateValue(value, rules = [], type = 'text') {
       if (rule.type === 'required' && (!value || value.trim() === '')) {
         return rule.message || 'هذا الحقل مطلوب'
       }
+      if (rule.type === 'equal' && (value !== val)) {
+        return rule.message || 'قيمة خاطئة'
+      }
       if (rule.type === 'minLength' && value.length < val) {
         return rule.message || `يجب ألا يقل عن ${val} حرفًا`
       }

@@ -15,45 +15,6 @@
                 class="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]"
             >
                 <div class="relative flex flex-col justify-center rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 px-6 lg:min-h-[758px] py-20">
-                    <!-- <div class="absolute top-6 end-6">
-                        <div class="dropdown">
-                            <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8">
-                                <button
-                                    type="button"
-                                    class="flex items-center gap-2.5 rounded-lg border border-white-dark/30 bg-white px-2 py-1.5 text-white-dark hover:border-primary hover:text-primary dark:bg-black"
-                                >
-                                    <div>
-                                        <img :src="currentFlag" alt="image" class="h-5 w-5 rounded-full object-cover" />
-                                    </div>
-                                    <div class="text-base font-bold uppercase">{{ store.locale }}</div>
-                                    <span class="shrink-0">
-                                        <icon-caret-down />
-                                    </span>
-                                </button>
-                                <template #content="{ close }">
-                                    <ul class="!px-2 text-dark dark:text-white-dark grid grid-cols-2 gap-2 font-semibold dark:text-white-light/90 w-[280px]">
-                                        <template v-for="item in store.languageList" :key="item.code">
-                                            <li>
-                                                <button
-                                                    type="button"
-                                                    class="w-full hover:text-primary"
-                                                    :class="{ 'bg-primary/10 text-primary': i18n.locale === item.code }"
-                                                    @click="changeLanguage(item), close()"
-                                                >
-                                                    <img
-                                                        class="w-5 h-5 object-cover rounded-full"
-                                                        :src="`/assets/images/flags/${item.code.toUpperCase()}.svg`"
-                                                        alt=""
-                                                    />
-                                                    <span class="ltr:ml-3 rtl:mr-3">{{ item.name }}</span>
-                                                </button>
-                                            </li>
-                                        </template>
-                                    </ul>
-                                </template>
-                            </Popper>
-                        </div>
-                    </div> -->
                     <div class="mx-auto w-full max-w-[440px]">
                         <div class="mb-10">
                             <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">إنشاء حساب جديد</h1>
@@ -61,26 +22,28 @@
                         </div>
                         <form class="space-y-5 dark:text-white" @submit.prevent="handleSignup">
                             <div>
-                                <label for="Name">اسم المستخدم</label>
+                                <label for="username">الرقم القومي</label>
                                 <div class="relative text-white-dark">
                                     <input
                                         v-model="username"
-                                        id="Name"
+                                        id="username"
                                         type="text"
-                                        placeholder="ادخل اسم المستخدم"
+                                        placeholder="ادخل الرقم القومي"
                                         class="form-input ps-10 placeholder:text-white-dark"
                                     />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
                                         <icon-user :fill="true" />
                                     </span>
                                 </div>
+                                <p v-if="nationalIdError" class="text-red-500 text-sm mt-1">{{ nationalIdError }}</p>
+
                             </div>
                             <div>
-                                <label for="Email">البريد الالكتروني</label>
+                                <label for="email">البريد الالكتروني</label>
                                 <div class="relative text-white-dark">
                                     <input
                                         v-model="email"
-                                        id="Email"
+                                        id="email"
                                         type="email"
                                         placeholder="أدخل بريدك الالكتروني"
                                         class="form-input ps-10 placeholder:text-white-dark"
@@ -91,7 +54,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="Password">الرقم السري</label>
+                                <label for="password">الرقم السري</label>
                                 <div class="relative text-white-dark">
                                     <input
                                         v-model="password"
@@ -106,7 +69,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+                            <button type="submit" class="btn btn-primary !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                 إنشاء حساب جديد
                             </button>
                             <p v-if="authStore.error" class="text-red-500 text-sm mt-2">{{ authStore.error }}</p>
@@ -119,7 +82,7 @@
 
                         <div class="text-center dark:text-white">
                             لديك حساب بالفعل ؟
-                            <router-link to="/auth/boxed-signin" class="uppercase text-primary underline transition hover:text-black dark:hover:text-white">
+                            <router-link to="/auth/signin" class="btn btn-secondary uppercase underline transition hover:text-black dark:hover:text-white">
                                 تسجيل الدخول
                             </router-link>
                         </div>
@@ -147,6 +110,9 @@
     import IconTwitter from '@/components/icon/icon-twitter.vue';
     import IconGoogle from '@/components/icon/icon-google.vue';
 
+    const nationalIdRegex = /^(2|3)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\d{7}$/;
+    const nationalIdError = ref('');
+
     useMeta({ title: 'انشاء حساب جديد' });
     const router = useRouter();
     const authStore = useAuthStore();
@@ -164,11 +130,18 @@
     };
 
     const handleSignup = async () => {
+        // ✅ تحقق من الرقم القومي
+        if (!nationalIdRegex.test(username.value)) {
+            nationalIdError.value = '❌ الرقم القومي غير صحيح';
+            return;
+        }
+
+        nationalIdError.value = '';
         await authStore.signup(username.value, email.value, password.value);
         if (authStore.success) {
             setTimeout(() => {
                 router.push('/auth/signin');
-            }, 1500);
+            }, 500);
         }
     };
     const currentFlag = computed(() => {

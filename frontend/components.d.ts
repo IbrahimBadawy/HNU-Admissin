@@ -204,6 +204,7 @@ declare module 'vue' {
     'Sidebar copy': typeof import('./src/components/layout/Sidebar copy.vue')['default']
     SubmissionForm: typeof import('./src/components/FormBuilder/SubmissionForm.vue')['default']
     SubmissionList: typeof import('./src/components/FormBuilder/SubmissionList.vue')['default']
+    'SubmissionList copy': typeof import('./src/components/FormBuilder/SubmissionList copy.vue')['default']
     TextArea: typeof import('./src/components/QuestionRenderer/types/TextArea.vue')['default']
     TextInput: typeof import('./src/components/QuestionRenderer/types/TextInput.vue')['default']
     ThemeCustomizer: typeof import('./src/components/ThemeCustomizer.vue')['default']

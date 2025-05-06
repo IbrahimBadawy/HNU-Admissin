@@ -25,14 +25,14 @@
     import Validator from '../Validator.vue';
     import { validateValue } from '../utils/validation';
 
-    const props = defineProps(['modelValue', 'mode', 'configs', 'options', 'errorState', 'question']);
+    const props = defineProps(['modelValue', 'mode', 'configs', 'options', 'errorState']);
     const emit = defineEmits(['update:modelValue', 'update:errorState']);
 
     const error = ref(null);
 
     function handleInput(e) {
         const val = e.target.value;
-        console.log(val);
+        // console.log(val);
 
         emit('update:modelValue', val);
 

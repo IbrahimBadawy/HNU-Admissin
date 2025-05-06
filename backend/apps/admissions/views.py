@@ -32,7 +32,7 @@ class FormListViewSet(ReadOnlyModelViewSet):
 class FormViewSet(viewsets.ModelViewSet):
     queryset = Form.objects.all().order_by("-created_at")
     serializer_class = FormSerializer
-    permission_classes = [IsAuthenticated]  # ✅ غيّرها لـ IsAuthenticated لو عايز
+    # permission_classes = [IsAuthenticated]  # ✅ غيّرها لـ IsAuthenticated لو عايز
 
     def check_admin(self):
         """تحقق من صلاحية الأدمن."""

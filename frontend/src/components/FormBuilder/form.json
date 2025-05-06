@@ -1,0 +1,1054 @@
+{
+    "id": 42,
+    "title": "تقديم جامعة حلوان الأهلية",
+    "is_active": true,
+    "created_at": "2025-05-06T23:10:21.367469+03:00",
+    "modified_at": "2025-05-06 23:47",
+    "tabs": [
+        {
+            "id": 123,
+            "title": "البيانات الأساسية",
+            "order": 1,
+            "sections": [
+                {
+                    "id": 133,
+                    "title": "البيانات الأساسية",
+                    "order": 1,
+                    "questions": [
+                        {
+                            "id": 287,
+                            "title": "الاسم رباعي باللغة العربية",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    },
+                                    {
+                                        "type": "regex",
+                                        "value": "^(?!\\s)(?!.*\\d)(?!.*[A-Za-z])(?!.*[^\\u0600-\\u06FF\\s])(?:.*\\s){3,}.*(?<!\\s)$",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "الاسم رباعي باللغة العربية"
+                            },
+                            "order": 1,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 288,
+                            "title": "الاسم رباعي باللغة الانجليزية",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    },
+                                    {
+                                        "type": "regex",
+                                        "value": "^(?!\\s)(?!.*\\d)(?!.*[\\u0600-\\u06FF])(?!.*[^A-Za-z\\s])(?:.*\\s){3,}.*(?<!\\s)$",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "الاسم رباعي باللغة الانجليزية"
+                            },
+                            "order": 2,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 289,
+                            "title": "النوع",
+                            "question_type": "select",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ]
+                            },
+                            "order": 3,
+                            "options": [
+                                {
+                                    "id": 204,
+                                    "title": "ذكر",
+                                    "order": 1,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 205,
+                                    "title": "انثى",
+                                    "order": 2,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                }
+                            ],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 290,
+                            "title": "الرقم القومي",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "regex",
+                                        "value": "^(2|3)\\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\\d{7}$",
+                                        "message": ""
+                                    },
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "ادخل الرقم القومي المصري المكون من 14 رقم"
+                            },
+                            "order": 4,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 291,
+                            "title": "رقم موبايل الطالب",
+                            "question_type": "text",
+                            "is_required": false,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "رقم موبايل الطالب"
+                            },
+                            "order": 5,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 292,
+                            "title": "رقم موبايل ولي الأمر",
+                            "question_type": "text",
+                            "is_required": false,
+                            "configs": {
+                                "rules": [],
+                                "placeholder": "رقم موبايل ولي الأمر"
+                            },
+                            "order": 5,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 293,
+                            "title": "الشهادة",
+                            "question_type": "select",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ]
+                            },
+                            "order": 7,
+                            "options": [
+                                {
+                                    "id": 206,
+                                    "title": "الثانوية العامة المصرية",
+                                    "order": 1,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 207,
+                                    "title": "الشهادات المعادلة العربية",
+                                    "order": 2,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 208,
+                                    "title": "الشهادات المعادلة الأجنبية",
+                                    "order": 3,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 209,
+                                    "title": "الثانوية الأزهرية",
+                                    "order": 4,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 210,
+                                    "title": "شهادة النيل",
+                                    "order": 5,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 211,
+                                    "title": "مدارس المتفوقين STEM",
+                                    "order": 6,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                }
+                            ],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 294,
+                            "title": "سنة الحصول على الشهادة",
+                            "question_type": "select",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ]
+                            },
+                            "order": 8,
+                            "options": [
+                                {
+                                    "id": 212,
+                                    "title": "2024",
+                                    "order": 1,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 213,
+                                    "title": "2025",
+                                    "order": 2,
+                                    "meta_data": {
+                                        "rules": [],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                }
+                            ],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        }
+                    ],
+                    "meta_data": {},
+                    "is_archived": false
+                }
+            ],
+            "meta_data": {
+                "depend_question": ""
+            },
+            "is_archived": false
+        },
+        {
+            "id": 124,
+            "title": "نوع الشهادة",
+            "order": 2,
+            "sections": [
+                {
+                    "id": 134,
+                    "title": "نوع الشهادة",
+                    "order": 1,
+                    "questions": [
+                        {
+                            "id": 295,
+                            "title": "نوع الشهادة",
+                            "question_type": "select",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "نوع الشهادة"
+                            },
+                            "order": 1,
+                            "options": [
+                                {
+                                    "id": 214,
+                                    "title": "علمي علوم - 2024",
+                                    "order": 1,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 215,
+                                    "title": "علمي علوم - 2025",
+                                    "order": 2,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 216,
+                                    "title": "علمي رياضة- 2024",
+                                    "order": 3,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 217,
+                                    "title": "علمي رياضة- 2025",
+                                    "order": 4,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 218,
+                                    "title": "ادبي - 2024",
+                                    "order": 5,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 219,
+                                    "title": "ادبي - 2025",
+                                    "order": 6,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية العامة المصرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 220,
+                                    "title": "معادلة عربية - علمي - 2024",
+                                    "order": 7,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة العربية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 221,
+                                    "title": "معادلة عربية - علمي - 2025",
+                                    "order": 8,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة العربية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 222,
+                                    "title": "معادلة عربية - ادبي - 2024",
+                                    "order": 9,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة العربية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 223,
+                                    "title": "معادلة عربية - ادبي - 2025",
+                                    "order": 10,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة العربية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 224,
+                                    "title": "معادلة أجنبية - 2024",
+                                    "order": 11,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة الأجنبية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 225,
+                                    "title": "معادلة أجنبية - 2025",
+                                    "order": 12,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الشهادات المعادلة الأجنبية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 226,
+                                    "title": "ازهري - علمي - 2024",
+                                    "order": 13,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية الأزهرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 227,
+                                    "title": "ازهري - علمي - 2025",
+                                    "order": 14,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية الأزهرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 228,
+                                    "title": "ازهري - أدبي - 2024",
+                                    "order": 15,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية الأزهرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 229,
+                                    "title": "ازهري - أدبي - 2025",
+                                    "order": 16,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "الثانوية الأزهرية",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 230,
+                                    "title": "النيل - 2024",
+                                    "order": 17,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "شهادة النيل",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 231,
+                                    "title": "النيل - 2025",
+                                    "order": 18,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "شهادة النيل",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 232,
+                                    "title": "STEM - 2024",
+                                    "order": 19,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "مدارس المتفوقين STEM",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                },
+                                {
+                                    "id": 233,
+                                    "title": "STEM - 2025",
+                                    "order": 20,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "equal",
+                                                "value": "مدارس المتفوقين STEM",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "text",
+                                        "is_locked": false
+                                    },
+                                    "is_archived": false
+                                }
+                            ],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": {
+                                    "name": "البيانات الأساسية | البيانات الأساسية | الشهادة",
+                                    "code": "البيانات الأساسية | البيانات الأساسية | الشهادة"
+                                },
+                                "description": ""
+                            }
+                        }
+                    ],
+                    "meta_data": {},
+                    "is_archived": false
+                }
+            ],
+            "meta_data": {
+                "depend_question": null
+            },
+            "is_archived": false
+        },
+        {
+            "id": 125,
+            "title": "البيانات الأكاديمية",
+            "order": 3,
+            "sections": [
+                {
+                    "id": 135,
+                    "title": "علمي علوم - 2024",
+                    "order": 1,
+                    "questions": [
+                        {
+                            "id": 296,
+                            "title": "رقم الجلوس",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ]
+                            },
+                            "order": 1,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 297,
+                            "title": "المجموع بالارقام",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "placeholder": "اكتب المجموع بالأرقام كما بالشهادة "
+                            },
+                            "order": 2,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 298,
+                            "title": "النسبة المئوية",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "regex",
+                                        "value": "^(53(\\.0{1,2})?|5[4-9](\\.\\d{1,2})?|[6-9][0-9](\\.\\d{1,2})?|100(\\.0{1,2})?)$",
+                                        "message": "النسبة المئوية خاطئة"
+                                    }
+                                ],
+                                "placeholder": "اكتب النسبة مثال 57.22"
+                            },
+                            "order": 3,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 299,
+                            "title": "صورة شهادة الثانوية العامة",
+                            "question_type": "file-upload",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "maxSize": 50,
+                                "maxFiles": 1,
+                                "fileTypes": "image/png,image/jpeg,image/jpg,image/webp,image/gif,application/pdf"
+                            },
+                            "order": 4,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "title": "الرغبة الأولى",
+                            "question_type": "select",
+                            "is_required": false,
+                            "meta_data": {
+                                "depend_question": {
+                                    "name": "البيانات الأكاديمية | علمي علوم - 2024 | النسبة المئوية",
+                                    "code": "البيانات الأكاديمية | علمي علوم - 2024 | النسبة المئوية"
+                                },
+                                "description": "(سيتم ظهور الكليات المتاحة وفقا للنسبة المئوية) عند كتابة النسبة بشكل خاطئ سيتم رفض الطلب"
+                            },
+                            "order": 5,
+                            "options": [
+                                {
+                                    "title": "كلية الطب البشري - الطب والجراحة التكاملى",
+                                    "order": 1,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "max_eq",
+                                                "value": "79",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    }
+                                },
+                                {
+                                    "title": "كلية العلاج الطبيعي - العلاج الطبيعي",
+                                    "order": 2,
+                                    "meta_data": {
+                                        "rules": [
+                                            {
+                                                "type": "max_eq",
+                                                "value": "75",
+                                                "message": ""
+                                            }
+                                        ],
+                                        "type_of_rules": "number",
+                                        "is_locked": false
+                                    }
+                                }
+                            ],
+                            "configs": {
+                                "rules": []
+                            }
+                        }
+                    ],
+                    "meta_data": {},
+                    "is_archived": false
+                }
+            ],
+            "meta_data": {
+                "depend_question": {
+                    "name": "نوع الشهادة | نوع الشهادة | نوع الشهادة",
+                    "code": "نوع الشهادة | نوع الشهادة | نوع الشهادة"
+                }
+            },
+            "is_archived": false
+        },
+        {
+            "id": 126,
+            "title": "رفع المستندات",
+            "order": 4,
+            "sections": [
+                {
+                    "id": 141,
+                    "title": "رفع المستندات",
+                    "order": 1,
+                    "questions": [
+                        {
+                            "id": 320,
+                            "title": "الصورة الشخصية",
+                            "question_type": "file-upload",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "maxSize": 50,
+                                "maxFiles": 1,
+                                "fileTypes": "image/png,image/jpeg,image/jpg,image/webp,image/gif,application/pdf"
+                            },
+                            "order": 1,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": "صورة شخصية رسمية واضحة بخلفية بيضاء (سيتم رفض الصور غير المناسبة)"
+                            }
+                        },
+                        {
+                            "id": 321,
+                            "title": "صورة بطاقة الرقم القومي للطالب الوجه الامامي",
+                            "question_type": "file-upload",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "fileTypes": "image/png,image/jpeg,image/jpg,image/webp,image/gif,application/pdf",
+                                "maxFiles": 1,
+                                "maxSize": 50
+                            },
+                            "order": 2,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": "( الذي يحتوي على الصورة الشخصية)"
+                            }
+                        },
+                        {
+                            "id": 322,
+                            "title": "صورة بطاقة الرقم القومي للطالب الوجه الخلفي",
+                            "question_type": "file-upload",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "maxSize": 50,
+                                "fileTypes": "image/png,image/jpeg,image/jpg,image/webp,image/gif,application/pdf",
+                                "maxFiles": 1
+                            },
+                            "order": 3,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        },
+                        {
+                            "id": 323,
+                            "title": "شهادة الميلاد",
+                            "question_type": "file-upload",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ],
+                                "maxSize": 50,
+                                "fileTypes": "image/png,image/jpeg,image/jpg,image/webp,image/gif,application/pdf",
+                                "maxFiles": 1
+                            },
+                            "order": 4,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        }
+                    ],
+                    "meta_data": {},
+                    "is_archived": false
+                }
+            ],
+            "meta_data": {
+                "depend_question": ""
+            },
+            "is_archived": false
+        },
+        {
+            "id": 127,
+            "title": "الدفع الالكتروني",
+            "order": 5,
+            "sections": [
+                {
+                    "id": 142,
+                    "title": "الدفع الالكتروني",
+                    "order": 1,
+                    "questions": [
+                        {
+                            "id": 324,
+                            "title": "الدفع الالكتروني",
+                            "question_type": "text",
+                            "is_required": true,
+                            "configs": {
+                                "rules": [
+                                    {
+                                        "type": "required",
+                                        "value": "",
+                                        "message": ""
+                                    }
+                                ]
+                            },
+                            "order": 1,
+                            "options": [],
+                            "is_archived": false,
+                            "meta_data": {
+                                "depend_question": "",
+                                "description": ""
+                            }
+                        }
+                    ],
+                    "meta_data": {},
+                    "is_archived": false
+                }
+            ],
+            "meta_data": {
+                "depend_question": ""
+            },
+            "is_archived": false
+        }
+    ],
+    "meta_data": {
+        "description": "",
+        "date_start": "",
+        "date_end": "",
+        "submissonsCount": 100000,
+        "userSubmitCount": 1,
+        "ignore_date": false
+    },
+    "submissions_count": 0
+}
