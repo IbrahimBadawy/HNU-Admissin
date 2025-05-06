@@ -4,21 +4,27 @@ import axios from '@/services/axios';
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null,
-        token: null,
+        access: null,
+        refresh: null,
         error: null,
         success: null,
     }),
     actions: {
         async login(username, password) {
+            this.error = '';
+            this.success = '';
             try {
                 const res = await axios.post('/api/token/', {
                     username,
                     password,
                 });
-                this.token = res.data.access;
                 this.error = null;
-                axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
-                localStorage.setItem('token', this.token);
+                this.refresh = res.data.refresh;
+                this.access = res.data.access;
+                this.success = 'تم تسجيل الدخول بنجاح 🎉';
+
+                localStorage.setItem("access", res.data.access);
+                localStorage.setItem("refresh", res.data.refresh);
             } catch {
                 this.error = 'بيانات الدخول غير صحيحة';
             }
@@ -40,12 +46,15 @@ export const useAuthStore = defineStore('auth', {
             }
         },
         logout() {
-            this.token = null;
             this.user = null;
             this.error = null;
             this.success = null;
-            localStorage.removeItem('token');
+            this.access = null;
+            this.refresh = null;
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
             delete axios.defaults.headers.common['Authorization'];
+            window.location.href = "/auth/signin";
         },
     },
 });

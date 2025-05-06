@@ -10,4 +10,5 @@ router.register(r"universities", UniversityViewSet, basename="university")
 urlpatterns = [
     path("", include(router.urls)),
     path("signup/", SignupView.as_view(), name="signup"),
+    path("user_data/", get_user, name="user_data"),
 ]

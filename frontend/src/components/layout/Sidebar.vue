@@ -23,189 +23,54 @@
                     class="h-[calc(100vh-80px)] relative"
                 >
                     <ul class="relative font-semibold space-y-0.5 p-4 py-0">
-                        <li class="menu nav-item">
-                            <button
-                                type="button"
-                                class="nav-link group w-full"
-                                :class="{ active: activeDropdown === 'dashboard' }"
-                                @click="activeDropdown === 'dashboard' ? (activeDropdown = null) : (activeDropdown = 'dashboard')"
-                            >
-                                <div class="flex items-center">
-                                    <icon-menu-dashboard class="group-hover:!text-primary shrink-0" />
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">
-                                        {{ $t('dashboard') }}
-                                    </span>
-                                </div>
-                                <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== 'dashboard' }">
-                                    <icon-caret-down />
-                                </div>
-                            </button>
-                            <vue-collapsible :isOpen="activeDropdown === 'dashboard'">
-                                <ul class="sub-menu text-gray-500">
-                                    <li>
-                                        <router-link to="/" @click="toggleMobileMenu">{{ $t('sales') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/analytics" @click="toggleMobileMenu">{{ $t('analytics') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/finance" @click="toggleMobileMenu">{{ $t('finance') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/crypto" @click="toggleMobileMenu">{{ $t('crypto') }}</router-link>
-                                    </li>
-                                </ul>
-                            </vue-collapsible>
-                        </li>
+                        <p v-if="!menuTree.length">{{ menuTree.length }}جاري تحميل القائمة...</p>
+                        <div v-else v-for="section in menuTree" :key="section.id">
+                            <h2 class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
+                                <icon-minus class="w-4 h-5 flex-none hidden" />
+                                <span>{{ section.name}}</span>
+                            </h2>
+                            <div v-for="section2 in section.children" :key="section2.id">
+                                <li v-if="section2.children.length > 0" class="menu nav-item">
+                                    <button
+                                        type="button"
+                                        class="nav-link group w-full"
+                                        :class="{ active: activeDropdown === section2.id }"
+                                        @click="activeDropdown === section2.id ? (activeDropdown = null) : (activeDropdown = section2.id)"
+                                    >
+                                        <div class="flex items-center">
+                                            <!-- <icon-menu-dashboard class="group-hover:!text-primary shrink-0" /> -->
+                                            <!-- <component :is="iconComponents[section2.icon]" class="group-hover:!text-primary shrink-0" /> -->
+                                            <component :is="icons[section2.icon]" class="group-hover:!text-primary shrink-0" />
+                                            <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{
+                                                section2.name
+                                            }}</span>
+                                        </div>
+                                        <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== section2.id }">
+                                            <icon-caret-down />
+                                        </div>
+                                    </button>
+                                    <vue-collapsible :isOpen="activeDropdown === section2.id">
+                                        <ul class="sub-menu text-gray-500">
+                                            <li v-for="section3 in section2.children" :key="section3.id">
+                                                <router-link :to="section3.to" @click="toggleMobileMenu">{{ section3.name }}</router-link>
+                                            </li>
+                                        </ul>
+                                    </vue-collapsible>
+                                </li>
+                                <li v-else class="menu nav-item">
+                                    <router-link :to="section2.to" class="nav-link group" @click="toggleMobileMenu">
+                                        <div class="flex items-center">
+                                            <!-- <component :is="iconComponents[section2.icon]" class="group-hover:!text-primary shrink-0" /> -->
+                                            <component :is="icons[section2.icon]" class="group-hover:!text-primary shrink-0" />
 
-                        <h2 class="py-3 px-7 flex items-center uppercase font-extrabold bg-white-light/30 dark:bg-dark dark:bg-opacity-[0.08] -mx-4 mb-1">
-                            <icon-minus class="w-4 h-5 flex-none hidden" />
-                            <span>{{ $t('tables_and_forms') }}</span>
-                        </h2>
-
-                        <li class="menu nav-item">
-                            <router-link to="/tables" class="nav-link group" @click="toggleMobileMenu">
-                                <div class="flex items-center">
-                                    <icon-menu-tables class="group-hover:!text-primary shrink-0" />
-
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{ $t('tables') }}</span>
-                                </div>
-                            </router-link>
-                        </li>
-
-                        <li class="menu nav-item">
-                            <button
-                                type="button"
-                                class="nav-link group w-full"
-                                :class="{ active: activeDropdown === 'datatables' }"
-                                @click="activeDropdown === 'datatables' ? (activeDropdown = null) : (activeDropdown = 'datatables')"
-                            >
-                                <div class="flex items-center">
-                                    <icon-menu-datatables class="group-hover:!text-primary shrink-0" />
-
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{
-                                        $t('datatables')
-                                    }}</span>
-                                </div>
-                                <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== 'datatables' }">
-                                    <icon-caret-down />
-                                </div>
-                            </button>
-                            <vue-collapsible :isOpen="activeDropdown === 'datatables'">
-                                <ul class="sub-menu text-gray-500">
-                                    <li>
-                                        <router-link to="/datatables/basic" @click="toggleMobileMenu">{{ $t('basic') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/advanced" @click="toggleMobileMenu">{{ $t('advanced') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/skin" @click="toggleMobileMenu">{{ $t('skin') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/order-sorting" @click="toggleMobileMenu">{{ $t('order_sorting') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/columns-filter" @click="toggleMobileMenu">{{ $t('columns_filter') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/multi-column" @click="toggleMobileMenu">{{ $t('multi_column') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/multiple-tables" @click="toggleMobileMenu">{{ $t('multiple_tables') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/alt-pagination" @click="toggleMobileMenu">{{ $t('alt_pagination') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/checkbox" @click="toggleMobileMenu">{{ $t('checkbox') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/range-search" @click="toggleMobileMenu">{{ $t('range_search') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/export" @click="toggleMobileMenu">{{ $t('export') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/sticky-header" @click="toggleMobileMenu">{{ $t('sticky_header') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/clone-header" @click="toggleMobileMenu">{{ $t('clone_header') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/datatables/column-chooser" @click="toggleMobileMenu">{{ $t('column_chooser') }}</router-link>
-                                    </li>
-                                </ul>
-                            </vue-collapsible>
-                        </li>
-
-                        <li class="menu nav-item">
-                            <button
-                                type="button"
-                                class="nav-link group w-full"
-                                :class="{ active: activeDropdown === 'forms' }"
-                                @click="activeDropdown === 'forms' ? (activeDropdown = null) : (activeDropdown = 'forms')"
-                            >
-                                <div class="flex items-center">
-                                    <icon-menu-forms class="group-hover:!text-primary shrink-0" />
-
-                                    <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{ $t('forms') }}</span>
-                                </div>
-                                <div :class="{ 'rtl:rotate-90 -rotate-90': activeDropdown !== 'forms' }">
-                                    <icon-caret-down />
-                                </div>
-                            </button>
-                            <vue-collapsible :isOpen="activeDropdown === 'forms'">
-                                <ul class="sub-menu text-gray-500">
-                                    <li>
-                                        <router-link to="/forms/basic" @click="toggleMobileMenu">{{ $t('basic') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/input-group" @click="toggleMobileMenu">{{ $t('input_group') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/layouts" @click="toggleMobileMenu">{{ $t('layouts') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/validation" @click="toggleMobileMenu">{{ $t('validation') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/input-mask" @click="toggleMobileMenu">{{ $t('input_mask') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/select2" @click="toggleMobileMenu">{{ $t('select2') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/touchspin" @click="toggleMobileMenu">{{ $t('touchspin') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/checkbox-radio" @click="toggleMobileMenu">{{ $t('checkbox_and_radio') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/switches" @click="toggleMobileMenu">{{ $t('switches') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/wizards" @click="toggleMobileMenu">{{ $t('wizards') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/file-upload" @click="toggleMobileMenu">{{ $t('file_upload') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/quill-editor" @click="toggleMobileMenu">{{ $t('quill_editor') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/markdown-editor" @click="toggleMobileMenu">{{ $t('markdown_editor') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/date-picker" @click="toggleMobileMenu">{{ $t('date_and_range_picker') }}</router-link>
-                                    </li>
-                                    <li>
-                                        <router-link to="/forms/clipboard" @click="toggleMobileMenu">{{ $t('clipboard') }}</router-link>
-                                    </li>
-                                </ul>
-                            </vue-collapsible>
-                        </li>
-
+                                            <span class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{{
+                                                section2.name
+                                            }}</span>
+                                        </div>
+                                    </router-link>
+                                </li>
+                            </div>
+                        </div>
                     </ul>
                 </perfect-scrollbar>
             </div>
@@ -214,10 +79,18 @@
 </template>
 
 <script lang="ts" setup>
-    import { ref, onMounted } from 'vue';
-
+    import { ref, onMounted ,computed} from 'vue';
+    import axios from '@/services/axios';
     import { useAppStore } from '@/stores/index';
     import VueCollapsible from 'vue-height-collapsible/vue3';
+
+    const modules = import.meta.glob('@/components/icon/**/*.vue', { eager: true });
+
+    const icons: Record<string, any> = {};
+    for (const path in modules) {
+        const shortName = path.split('/').pop()?.replace('.vue', '') || '';
+        icons[shortName] = (modules[path] as any).default;
+    }
 
     import IconCaretsDown from '@/components/icon/icon-carets-down.vue';
     import IconMenuDashboard from '@/components/icon/menu/icon-menu-dashboard.vue';
@@ -245,9 +118,114 @@
     import IconMenuAuthentication from '@/components/icon/menu/icon-menu-authentication.vue';
     import IconMenuDocumentation from '@/components/icon/menu/icon-menu-documentation.vue';
 
+    const iconComponents = {
+        IconMenuDashboard,
+        IconMenuChat,
+        IconMenuMailbox,
+        IconMenuTodo,
+        IconMenuNotes,
+        IconMenuScrumboard,
+        IconMenuContacts,
+        IconMenuInvoice,
+        IconMenuCalendar,
+        IconMenuComponents,
+        IconMenuElements,
+        IconMenuCharts,
+        IconMenuWidgets,
+        IconMenuFontIcons,
+        IconMenuDragAndDrop,
+        IconMenuTables,
+        IconMenuDatatables,
+        IconMenuForms,
+        IconMenuUsers,
+        IconMenuPages,
+        IconMenuAuthentication,
+        IconMenuDocumentation,
+    };
+    // const iconName = ref<keyof typeof iconComponents>('IconMenuDatatables');
+    // const menuTree = [
+    //     {
+    //         id: '1.',
+    //         name: 'tables_and_forms1',
+    //         type: 'section',
+    //         to: '/',
+    //         children: [
+    //             {
+    //                 id: '1.1.',
+    //                 name: 'dashboard',
+    //                 type: 'dropdown',
+    //                 icon: 'IconMenuDashboard',
+    //                 to: '/',
+    //                 children: [
+    //                     { id: '1.1.1.', name: 'sales', type: 'link', to: '/' },
+    //                     { id: '1.1.2.', name: 'analytics', type: 'link', to: '/analytics' },
+    //                 ],
+    //             },
+    //         ],
+    //     },
+
+    //     {
+    //         id: '2.',
+    //         name: 'tables_and_forms2',
+    //         type: 'section',
+    //         to: '/',
+    //         children: [
+    //             {
+    //                 id: '2.1.',
+    //                 name: 'tables',
+    //                 type: 'link',
+    //                 icon: 'IconMenuElements',
+    //                 to: '/analytics',
+    //                 children: [],
+    //             },
+    //             {
+    //                 id: '2.3.',
+    //                 name: 'tables',
+    //                 type: 'link',
+    //                 icon: 'IconMenuElements',
+    //                 to: '/tables',
+    //                 children: [],
+    //             },
+    //             {
+    //                 id: '2.2.',
+    //                 name: 'forms',
+    //                 type: 'dropdown',
+    //                 icon: 'IconMenuTables',
+    //                 to: '/',
+    //                 children: [
+    //                     { id: '2.2.1.', name: 'basic', type: 'link', to: '/forms/basic' },
+    //                     { id: '2.2.2.', name: 'advanced', type: 'link', to: '/forms/advanced' },
+    //                     { id: '2.2.3.', name: 'Nested Menu', type: 'link', to: '/forms/advanced' },
+    //                 ],
+    //             },
+    //         ],
+    //     },
+
+    // ];
+
     const store = useAppStore();
     const activeDropdown: any = ref('');
     const subActive: any = ref('');
+    const is_staff = localStorage.getItem('user_is_staff') ==="true"
+    const menuTree = ref<any[]>([]);
+
+    const fetchSubmission = async () => {
+        try {
+            if (is_staff) {
+                const response = await axios.get(`/media/staff_menu.json`);
+                menuTree.value = response.data;
+                
+            }
+            else{
+                const response = await axios.get(`/media/user_menu.json`);
+                menuTree.value = response.data;
+
+            }
+        } catch (error) {
+            console.error('Error fetching submission', error);
+        }
+    };
+    onMounted(fetchSubmission);
 
     onMounted(() => {
         const selector = document.querySelector('.sidebar ul a[href="' + window.location.pathname + '"]');

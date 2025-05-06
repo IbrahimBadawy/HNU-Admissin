@@ -25,3 +25,14 @@ cd frontend
 npm run dev
 
 npm install 
+
+
+
+git add .
+git commit -m "تعديلات من السيرفر"
+git push origin main
+
+
+
+git clone https://github.com/IbrahimBadawy/HNU-Admissin.git .
+git pull origin main

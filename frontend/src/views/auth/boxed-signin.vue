@@ -118,9 +118,11 @@
     import { useI18n } from 'vue-i18n';
     import appSetting from '@/app-setting';
     import { useAppStore } from '@/stores/index';
-    import { useRouter } from 'vue-router';
+    import { useRouter,useRoute } from 'vue-router';
     import { useMeta } from '@/composables/use-meta';
     import { useAuthStore } from '@/stores/auth';
+    import axios from '@/services/axios';
+
 
     import IconCaretDown from '@/components/icon/icon-caret-down.vue';
     import IconMail from '@/components/icon/icon-mail.vue';
@@ -134,6 +136,7 @@
     const username = ref('');
     const password = ref('');
     const router = useRouter();
+    const route = useRoute();
     const authStore = useAuthStore();
 
     const store = useAppStore();
@@ -146,8 +149,20 @@
 
     const handleLogin = async () => {
         await authStore.login(username.value, password.value);
-        if (authStore.token) {
-            router.push('/dashboard'); // غيّر المسار حسب المطلوب
+        if (authStore.access) {
+            try {
+                const res = await axios.get(`api/users/user_data/`);
+                // console.log(res.data)
+                localStorage.setItem("user_id", res.data.id);
+                localStorage.setItem("user_is_staff", res.data.is_staff);
+                localStorage.setItem("user_username", res.data.username);
+
+
+            } catch (error) {
+                console.error('Error loading submissions:', error);
+            } finally {
+                router.push('/dashboard'); // غيّر المسار حسب المطلوب
+            }
         }
     };
 

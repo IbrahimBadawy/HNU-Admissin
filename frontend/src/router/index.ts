@@ -2,17 +2,75 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAppStore } from '@/stores/index';
 import appSetting from '@/app-setting';
 
-import HomeView from '../views/index.vue';
 
 const routes: RouteRecordRaw[] = [
     // dashboard
-    { path: '/', name: 'home', component: HomeView },
+    { path: '', name: 'home', component: () => import('../components/FormBuilder/FormList.vue') },
+
     {
-        path: '/analytics',
-        name: 'analytics',
-        component: () => import( '../views/analytics.vue'),
+        path: '/icons',
+        name: 'icons',
+        component: () => import('../views/icons.vue'),
+    },
+    {
+        path: '/admin-form-new',
+        name: 'admin-form-new',
+        component: () => import('@/components/FormBuilder/FormBuilder.vue'),
+    },
+    {
+        path: '/admin-form-edit/:id',
+        name: 'admin-form-edit',
+        component: () => import('../components/FormBuilder/FormBuilder.vue'),
+        props: true,
+    },
+    {
+        path: '/forms',
+        name: 'forms',
+        component: () => import('../components/FormBuilder/FormList.vue'),
     },
 
+    {
+        path: '/submissions/:formId',
+        name: 'submissions-id',
+        component: () => import('@/components/FormBuilder/SubmissionList.vue'),
+        props: true,
+    },
+    {
+        path: '/submissions',
+        name: 'submissions',
+        component: () => import('@/components/FormBuilder/SubmissionList.vue'),
+    },
+
+    {
+        path: '/submissions/:formId/new',
+        name: 'submissions-new',
+        component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
+        props: true,
+    },
+    {
+        path: '/submissions/:formId/:id',
+        name: 'submissions-view',
+        component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
+        props: true,
+    },
+    {
+        path: '/submissions/:formId/:id/edit',
+        name: 'submission-edit',
+        component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
+        props: true,
+    },
+    {
+        path: '/submissions/:formId/:id/edit/:tabId',
+        name: 'submission-edit-tab',
+        component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
+        props: true,
+    },
+    {
+        path: '/submissions/:formId/:id/:tabId',
+        name: 'submission-view-tab',
+        component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
+        props: true,
+    },
 
     // authentication
     {
@@ -39,7 +97,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import(/* webpackChunkName: "auth-boxed-password-reset" */ '../views/auth/boxed-password-reset.vue'),
         meta: { layout: 'auth' },
     },
-
 ];
 
 const router = createRouter({
@@ -58,13 +115,25 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const store = useAppStore();
 
+    // 🔄 تغيير الواجهة حسب نوع الصفحة
     if (to?.meta?.layout == 'auth') {
         store.setMainLayout('auth');
     } else {
         store.setMainLayout('app');
     }
-    next(true);
+
+    // ✅ حماية الصفحات الخاصة
+    const isPublicPage = to.path.startsWith('/auth');
+    const accessToken = localStorage.getItem('access');
+
+    if (!isPublicPage && !accessToken) {
+        // ⛔ مفيش توكن → ورايح على صفحة خاصة → رجّعه على تسجيل الدخول
+        return next({ path: '/auth/signin' });
+    }
+
+    return next();
 });
+
 router.afterEach((to, from, next) => {
     appSetting.changeAnimation();
 });

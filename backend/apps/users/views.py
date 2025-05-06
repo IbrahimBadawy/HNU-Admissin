@@ -10,6 +10,8 @@ from .models import Program
 from .serializers import *
 from .permissions import *
 
+from rest_framework.decorators import api_view
+
 
 class ProgramViewSet(viewsets.ModelViewSet):
     queryset = Program.objects.all()
@@ -72,3 +74,19 @@ class SignupView(APIView):
             username=username, email=email, password=password
         )
         return Response({"message": "User created successfully"}, status=201)
+
+@api_view(["GET"])
+def get_user(request):
+    if not request.user.is_authenticated:
+        return Response(
+            {"error": "Not authenticated"}, status=status.HTTP_401_UNAUTHORIZED
+        )
+
+    return Response(
+        {
+            "id": request.user.id,
+            "username": request.user.username,
+            "email": request.user.email,
+            "is_staff": request.user.is_staff,
+        }
+    )

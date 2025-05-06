@@ -31,8 +31,21 @@ appSetting.init();
 import i18n from '@/i18n';
 app.use(i18n);
 
+// use the TippyPlugin
+import {TippyPlugin} from 'tippy.vue';
+
+app.use(TippyPlugin);
+
 // popper
 import Popper from 'vue3-popper';
 app.component('Popper', Popper);
+
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura
+    }
+});
 
 app.mount('#app');

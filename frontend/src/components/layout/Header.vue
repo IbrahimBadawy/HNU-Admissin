@@ -19,72 +19,13 @@
                         <icon-menu class="w-5 h-5" />
                     </a>
                 </div>
-                <div class="ltr:mr-2 rtl:ml-2 hidden sm:block">
-                    <ul class="flex items-center space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]">
-                        <li>
-                            <router-link
-                                to="/apps/calendar"
-                                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            >
-                                <icon-calendar />
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link
-                                to="/apps/todolist"
-                                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            >
-                                <icon-edit />
-                            </router-link>
-                        </li>
-                        <li>
-                            <router-link
-                                to="/apps/chat"
-                                class="block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            >
-                                <icon-chat-notification />
-                            </router-link>
-                        </li>
-                    </ul>
-                </div>
+
                 <div
                     class="sm:flex-1 ltr:sm:ml-0 ltr:ml-auto sm:rtl:mr-0 rtl:mr-auto flex items-center space-x-1.5 lg:space-x-2 rtl:space-x-reverse dark:text-[#d0d2d6]"
                 >
-                    <div class="sm:ltr:mr-auto sm:rtl:ml-auto">
-                        <form
-                            class="sm:relative absolute inset-x-0 sm:top-0 top-1/2 sm:translate-y-0 -translate-y-1/2 sm:mx-0 mx-4 z-10 sm:block hidden"
-                            :class="{ '!block': search }"
-                            @submit.prevent="search = false"
-                        >
-                            <div class="relative">
-                                <input
-                                    type="text"
-                                    class="form-input ltr:pl-9 rtl:pr-9 ltr:sm:pr-4 rtl:sm:pl-4 ltr:pr-9 rtl:pl-9 peer sm:bg-transparent bg-gray-100 placeholder:tracking-widest"
-                                    placeholder="Search..."
-                                />
-                                <button type="button" class="absolute w-9 h-9 inset-0 ltr:right-auto rtl:left-auto appearance-none peer-focus:text-primary">
-                                    <icon-search class="mx-auto" />
-                                </button>
-                                <button
-                                    type="button"
-                                    class="hover:opacity-80 sm:hidden block absolute top-1/2 -translate-y-1/2 ltr:right-2 rtl:left-2"
-                                    @click="search = false"
-                                >
-                                    <icon-x-circle />
-                                </button>
-                            </div>
-                        </form>
+                    <div class="sm:ltr:mr-auto sm:rtl:ml-auto">منصة التقديم لجامعة حلوان الأهلية</div>
 
-                        <button
-                            type="button"
-                            class="search_btn sm:hidden p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:bg-white-light/90 dark:hover:bg-dark/60"
-                            @click="search = !search"
-                        >
-                            <icon-search class="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
-                        </button>
-                    </div>
-
-                    <div class="dropdown shrink-0">
+                    <!-- <div class="dropdown shrink-0">
                         <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-start' : 'bottom-end'" offsetDistance="8" class="align-middle">
                             <button
                                 type="button"
@@ -145,11 +86,11 @@
                                 </ul>
                             </template>
                         </Popper>
-                    </div>
+                    </div> -->
 
                     <div class="dropdown shrink-0">
                         <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8" class="align-middle">
-                            <button
+                            <!-- <button
                                 type="button"
                                 class="relative block p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60"
                             >
@@ -222,11 +163,16 @@
                                         </li>
                                     </template>
                                 </ul>
-                            </template>
+                            </template> -->
+
+                            <a href="#" class="text-danger !py-3 flex items-center" @click.prevent="handleLogOut">
+                                            <icon-logout class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0" />
+                                            Sign Out
+                                        </a>
                         </Popper>
                     </div>
 
-                    <div class="dropdown shrink-0">
+                    <!-- <div class="dropdown shrink-0">
                         <Popper :placement="store.rtlClass === 'rtl' ? 'bottom-end' : 'bottom-start'" offsetDistance="8" class="!block align-middle">
                             <button type="button" class="relative group block">
                                 <img
@@ -282,7 +228,7 @@
                                 </ul>
                             </template>
                         </Popper>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -462,7 +408,7 @@
     };
     const handleLogOut = async () => {
         await authStore.logout();
-        if (!authStore.token) {
+        if (!authStore.access) {
             router.push('/auth/signin'); // غيّر المسار حسب المطلوب
         }
     };
