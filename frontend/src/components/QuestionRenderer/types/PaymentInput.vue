@@ -130,7 +130,9 @@
         const orderId = route.query.order_id;
         if (orderId) {
             try {
-                const res = await axios.get(`/api/payments/check/${orderId}`);
+                const res = await axios.get(`/api/payments/check/${orderId}/`);
+                console.log(orderId)
+                console.log(res)
                 if (res.data.success) {
                     configsLocal.value.paid = true;
                     showToast('تم الدفع بنجاح ✅', 'success');

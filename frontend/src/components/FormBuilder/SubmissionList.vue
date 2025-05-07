@@ -46,7 +46,7 @@
                     <button @click="goToView(submission.form, submission.id)" title="عرض">👁️</button>
 
                     <button v-if="is_staff || (!is_staff && !submission.is_locked)" @click="goToEdit(submission.form, submission.id)" title="تعديل">✏️</button>
-                    <button v-if="is_staff" @click="deleteSubmission(submission.id)" title="حذف">🗑️</button>
+                    <button v-if="is_staff" @click="deleteSubmission(submission.id)" disabled  title="حذف">🗑️</button>
                 </div>
             </div>
         </div>

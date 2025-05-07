@@ -38,7 +38,7 @@
                                 <p v-if="nationalIdError" class="text-red-500 text-sm mt-1">{{ nationalIdError }}</p>
 
                             </div>
-                            <div>
+                            <!-- <div>
                                 <label for="email">البريد الالكتروني</label>
                                 <div class="relative text-white-dark">
                                     <input
@@ -52,7 +52,7 @@
                                         <icon-mail :fill="true" />
                                     </span>
                                 </div>
-                            </div>
+                            </div> -->
                             <div>
                                 <label for="password">الرقم السري</label>
                                 <div class="relative text-white-dark">

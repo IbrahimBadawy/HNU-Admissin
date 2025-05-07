@@ -83,7 +83,7 @@ class FormSubmission(models.Model):
         ('rejected', 'تم الرفض'),
         ('noted', 'توجد ملاحظات'),
     ]
-    form = models.ForeignKey(Form, related_name="submissions", on_delete=models.CASCADE)
+    form = models.ForeignKey(Form, related_name="submissions", on_delete=models.SET_NULL,null=True)
     user_identifier = models.CharField(max_length=255, null=True, blank=True)  # 🔥 New
     is_locked = models.BooleanField(default=False)  # 🔥 الحقل الجديد
     meta_data = models.JSONField(default=dict, blank=True)

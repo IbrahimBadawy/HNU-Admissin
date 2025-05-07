@@ -22,13 +22,13 @@
                         </div>
                         <form class="space-y-5 dark:text-white" @submit.prevent="handleLogin">
                             <div>
-                                <label for="Username">اسم المستخدم</label>
+                                <label for="username">الرقم القومي</label>
                                 <div class="relative text-white-dark">
                                     <input
                                         v-model="username"
-                                        id="Username"
+                                        id="username"
                                         type="text"
-                                        placeholder="أدخل اسم المستخدم"
+                                        placeholder="أدخل الرقم القومي"
                                         class="form-input ps-10 placeholder:text-white-dark"
                                     />
                                     <span class="absolute start-4 top-1/2 -translate-y-1/2">
@@ -37,11 +37,11 @@
                                 </div>
                             </div>
                             <div>
-                                <label for="Password">الرقم السري</label>
+                                <label for="password">الرقم السري</label>
                                 <div class="relative text-white-dark">
                                     <input
                                         v-model="password"
-                                        id="Password"
+                                        id="password"
                                         type="password"
                                         placeholder="أدخل الرقم السري"
                                         class="form-input ps-10 placeholder:text-white-dark"

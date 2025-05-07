@@ -31,7 +31,7 @@
                         <h3 class="text-lg font-semibold mb-2">{{ section.title }}</h3>
                         <div v-for="question in section.questions" :key="question.id" class="border p-4 rounded shadow mb-2">
                             <h4 class="font-semibold mb-2">{{ question.title }}</h4>
-                            <h4 class="mb-2">{{ question.meta_data.description || '' }}</h4>
+                            <!-- <h4 class="mb-2">{{ question.meta_data.description || '' }}</h4> -->
                             <QuestionRenderer
                                 :type="question.question_type"
                                 :mode="mode"

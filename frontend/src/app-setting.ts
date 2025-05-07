@@ -32,7 +32,7 @@ export default {
         val = val || $themeConfig.rtlClass;
         store.toggleRTL(val);
 
-        val = localStorage.getItem('animation'); // animate__fadeIn, animate__fadeInDown, animate__fadeInUp, animate__fadeInLeft, animate__fadeInRight, animate__slideInDown, animate__slideInLeft, animate__slideInRight, animate__zoomIn
+        val = localStorage.getItem('animate__fadeIn'); // animate__fadeIn, animate__fadeInDown, animate__fadeInUp, animate__fadeInLeft, animate__fadeInRight, animate__slideInDown, animate__slideInLeft, animate__slideInRight, animate__zoomIn
         val = val || $themeConfig.animation;
         store.toggleAnimation(val);
 

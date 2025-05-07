@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const res = await axios.post('/api/users/signup/', {
                     username,
-                    email,
+                    // email,
                     password,
                 });
                 this.success = 'تم إنشاء الحساب بنجاح 🎉';

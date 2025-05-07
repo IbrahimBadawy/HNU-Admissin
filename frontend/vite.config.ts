@@ -26,10 +26,13 @@ export default defineConfig({
     server: {
         host: true,
         port: 5173,
-        allowedHosts: ['admission.hnu.edu.eg','c4fb-41-33-164-93.ngrok-free.app', 'localhost'],
+        allowedHosts: ['admission.hnu.edu.eg','pay.hnu.edu.eg','193.227.34.93', 'localhost'],
         proxy: {
             '/api': {
+                // target: 'https://admission.hnu.edu.eg',
                 target: 'http://admission.hnu.edu.eg',
+                // target: 'http://193.227.34.93',
+                // target: 'http://pay.hnu.edu.eg',
                 changeOrigin: true,
             },
         }, // 👈 ده المهم

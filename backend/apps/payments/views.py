@@ -80,8 +80,11 @@ class InitiatePaymentView(APIView):
 
         # ✅ يرجع على نفس صفحة الإدخال
         # return_url = f"https://c4fb-41-33-164-93.ngrok-free.app/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
-        return_url = f"http://admission.hnu.edu.eg:83/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
-        # return_url = f"http://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        # return_url = f"http://admission.hnu.edu.eg:83/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        # return_url = f"http://193.227.34.93/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        # return_url = f"http://pay.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        # return_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        return_url = f"http://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
         # return_url = f"https://www.google.com/"
 
         payload = {
@@ -207,7 +210,8 @@ class PaymentRedirectView(APIView):
             submission_id = request.GET.get("id")
             tab_id = request.GET.get("tabId")
 
-            frontend_url = f"https://c4fb-41-33-164-93.ngrok-free.app/submissions/{form_id}/{submission_id}/edit/{tab_id}"
+            frontend_url = f"http://c4fb-41-33-164-93.ngrok-free.app/submissions/{form_id}/{submission_id}/edit/{tab_id}"
+            # frontend_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}"
             return redirect(f"{frontend_url}?order_id={order_id}")
 
         except Exception as e:

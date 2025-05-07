@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "change-me-in-production")
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ["admission.hnu.edu.eg",    "c4fb-41-33-164-93.ngrok-free.app", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["admission.hnu.edu.eg", "127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -65,7 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://admission.hnu.edu.eg",
     "https://admission.hnu.edu.eg",
-    "https://c4fb-41-33-164-93.ngrok-free.app"
+
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://admission.hnu.edu.eg",
@@ -74,7 +74,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://localhost:5173",
     "http://localhost:8000",
-    "https://c4fb-41-33-164-93.ngrok-free.app"
+
 
 ]
 
@@ -139,13 +139,22 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "hnu_admission",           # اسم قاعدة البيانات
+        "USER": "postgres",                # اسم المستخدم (حسب إعداداتك)
+        "PASSWORD": "1qa2ws3ED#",       # كلمة السر
+        "HOST": "127.0.0.1",               # أو ip السيرفر
+        "PORT": "5432",                    # البورت الافتراضي لـ PostgreSQL
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

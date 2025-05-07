@@ -5,11 +5,11 @@
         <input v-model="form.title" class="input" placeholder="ادخل عنوان النموذج" />
       </div>
   
-      <div>
+      <!-- <div>
         <label class="font-semibold block mb-1">وصف النموذج</label>
         <textarea v-model="form.meta_data.description" class="input" placeholder="ادخل وصف النموذج"></textarea>
       </div>
-  
+   -->
       <div class="flex gap-4 items-center">
         <label class="font-semibold">تفعيل النموذج</label>
         <input type="checkbox" v-model="form.is_active" />
