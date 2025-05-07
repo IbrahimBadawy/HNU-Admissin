@@ -56,7 +56,7 @@
         modelValue: props.modelValue,
         'onUpdate:modelValue': (val) => emits('update:modelValue', val),
         'onUpdate:errorState': (val) => emits('update:errorState', val),
-          'onUpdate:configs': (val) => emits('update:configs', val), // ✅ أضف دي
+        'onUpdate:configs': (val) => emits('update:configs', val), // ✅ أضف دي
 
         configs: props.configs,
         options: props.options,

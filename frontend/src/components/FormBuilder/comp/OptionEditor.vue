@@ -21,19 +21,24 @@
                 <span>تاريخ</span>
             </label>
         </div>
-        <div >
+        <div>
             <draggable :list="localOptions" handle=".handle" :animate="200" group="options" @end="emitOptions">
                 <div v-for="(option, index) in localOptions" :key="option.order" class="flex gap-2 items-center border rounded px-2 py-1 bg-gray-50">
+                    <div class="flex w-full border p-3 rounded mt-2 bg-white">
+                        <input v-model="option.title" class="input w-full" placeholder="عنوان الاختيار" @change="emitOptions" />
+                        <button @click="copyOption(index)" class="w-15">📄</button>
+                        <button @click="removeOption(index)" class="w-15 red">X</button>
+                        <span class="handle cursor-move w-15">↕️</span>
+                    </div>
 
+                    <QuestionRenderer
+                        :type="'optionsComp'"
+                        :mode="'create'"
+                        v-model:configs="props.configs"
+                        :option="option || {}"
+                        :q_type="local_q_type"
 
-                        <div  class="flex w-full border p-3 rounded mt-2 bg-white">
-                            <input v-model="option.title" class="input w-full" placeholder="عنوان الاختيار" @change="emitOptions" />
-                            <button @click="copyOption(index)" class="w-15">📄</button>
-                            <button @click="removeOption(index)" class="w-15 red">X</button>
-                            <span class="handle cursor-move w-15">↕️</span>
-                        </div>
-    
-                        <QuestionRenderer :type="'optionsComp'" :mode="'create'" :configs="props.configs || {}" :option="option || {}" :q_type="local_q_type" />
+                    />
                 </div>
             </draggable>
         </div>

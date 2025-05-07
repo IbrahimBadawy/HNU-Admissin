@@ -192,6 +192,7 @@ declare module 'vue' {
     'OptionEditor copy': typeof import('./src/components/FormBuilder/comp/OptionEditor copy.vue')['default']
     Options: typeof import('./src/components/QuestionRenderer/types/Options.vue')['default']
     PaymentInput: typeof import('./src/components/QuestionRenderer/types/PaymentInput.vue')['default']
+    PaymentInput22: typeof import('./src/components/QuestionRenderer/types/PaymentInput22.vue')['default']
     QuestionEditor: typeof import('./src/components/FormBuilder/comp/QuestionEditor.vue')['default']
     QuestionRenderer: typeof import('./src/components/QuestionRenderer/QuestionRenderer.vue')['default']
     RadioInput: typeof import('./src/components/QuestionRenderer/types/RadioInput.vue')['default']

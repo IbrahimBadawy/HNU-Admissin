@@ -341,7 +341,7 @@
                                 router.push(`/submissions/${formId.value}/`);
                             } else {
                                 await axios.put(`api/admissions/submissions/${submissionId.value}/`, payload);
-                                router.push(`/submissions/${formId.value}/${submissionId.value}/edit/${index}`);
+                                router.push(`/submissions/${route.params.formId}/${route.params.id}/edit/${route.params.tabId}`);
                             }
                         } else {
                             router.push(`/submissions/${formId.value}/`);

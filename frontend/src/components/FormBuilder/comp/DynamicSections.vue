@@ -12,7 +12,7 @@
                         <input @click="accordians1 = i" v-model="tab.title" class="input w-full" placeholder="عنوان القسم" />
                         <div class="flex gap-2 ml-2">
                             <div @click="accordians1 = i" class="flex gap-2 ml-2">
-                                <button @click="addSection(tab)"  class="w-15">+ قسم فرعي</button>
+                                <button @click="addSection(tab)" class="w-15">+ قسم فرعي</button>
                                 <button @click="copyTab(i)" class="w-15">📄 نسخ</button>
                                 <button @click="removeTab(i)" class="w-15">🗑 حذف</button>
                             </div>
@@ -27,9 +27,16 @@
                     </button>
                     <div class="mr-4 card flex mb-3">
                         <label class="ml-3 pt-2"> اختر سؤال الربط</label>
-                      
-                        <Select @click="accordians1 = i" showClear  v-model="tab.meta_data.depend_question" :options="extractTitlesFromTabs(localTabs)" optionLabel="name" placeholder="اختر سؤال الربط" class="w-full md:w-56" />
 
+                        <Select
+                            @click="accordians1 = i"
+                            showClear
+                            v-model="tab.meta_data.depend_question"
+                            :options="extractTitlesFromTabs(localTabs)"
+                            optionLabel="name"
+                            placeholder="اختر سؤال الربط"
+                            class="w-full md:w-56"
+                        />
                     </div>
                     <vue-collapsible :isOpen="accordians1 === i">
                         <div @click="accordians1 = i" class="space-y-2 p-4 text-white-dark text-[13px] border-t border-[#d3d3d3] dark:border-[#1b2e4b]">
@@ -84,8 +91,7 @@
                                                             v-model:configs="question.configs"
                                                             @remove="() => removeQuestion(section, q)"
                                                             @duplicate="() => copyQuestion(section, q)"
-                                                            @update:configs="(val) => question.configs = val"
-
+                                                            @update:configs="(val) => (question.configs = val)"
                                                         />
                                                     </template>
                                                 </draggable>
@@ -228,7 +234,7 @@
             },
             order: section.questions.length + 1,
             options: [],
-            configs: [],
+            configs: {},
         });
     }
 
@@ -277,8 +283,8 @@
                 if (!section.questions) return;
 
                 section.questions.forEach((question) => {
-                    const dat= `${tab.title} | ${section.title} | ${question.title}`
-                    result.push({name:dat, code:dat});
+                    const dat = `${tab.title} | ${section.title} | ${question.title}`;
+                    result.push({ name: dat, code: dat });
                 });
             });
         });

@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "change-me-in-production")
 # DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ["admission.hnu.edu.eg", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["admission.hnu.edu.eg",    "c4fb-41-33-164-93.ngrok-free.app", "127.0.0.1", "localhost"]
 
 # Application definition
 
@@ -65,6 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://admission.hnu.edu.eg",
     "https://admission.hnu.edu.eg",
+    "https://c4fb-41-33-164-93.ngrok-free.app"
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://admission.hnu.edu.eg",
@@ -73,6 +74,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://localhost:5173",
     "http://localhost:8000",
+    "https://c4fb-41-33-164-93.ngrok-free.app"
+
 ]
 
 # REST_FRAMEWORK = {

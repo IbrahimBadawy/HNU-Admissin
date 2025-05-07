@@ -13,6 +13,7 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/users/", include("apps.users.urls")),  # تأكد إن users/urls.py موجود
     path("api/admissions/", include("apps.admissions.urls")),  
+    path("api/payments/", include("apps.payments.urls")),
 ]
 
 
