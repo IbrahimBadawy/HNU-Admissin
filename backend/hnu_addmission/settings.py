@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "apps.appeals",
     "apps.website",
     "apps.notifications",
+    "apps.coordination",
 ]
 
 MIDDLEWARE = [

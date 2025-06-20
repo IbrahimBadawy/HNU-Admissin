@@ -8,7 +8,13 @@ class Form(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     is_archived = models.BooleanField(default=False)
-
+    syear = models.ForeignKey(
+        "coordination.AcademicYear",
+        default='1',
+        related_name="syear",
+        blank=True,
+        on_delete=models.DO_NOTHING,
+    )
 
 
 class Tab(models.Model):
@@ -65,7 +71,7 @@ class Question(models.Model):
     is_archived = models.BooleanField(default=False)
     meta_data = models.JSONField(default=dict, blank=True)
 
-    
+
 class Option(models.Model):
     question = models.ForeignKey(
         Question, related_name="options", on_delete=models.CASCADE
@@ -76,26 +82,24 @@ class Option(models.Model):
     is_archived = models.BooleanField(default=False)
 
 
-
-
 class FormSubmission(models.Model):
     STATUS_CHOICES = [
-        ('reviewed', 'مستوفي'),
-        ('pending', 'تحت المراجعة'),
-        ('accepted', 'تم القبول'),
-        ('rejected', 'تم الرفض'),
-        ('noted', 'توجد ملاحظات'),
+        ("reviewed", "مستوفي"),
+        ("pending", "تحت المراجعة"),
+        ("accepted", "تم القبول"),
+        ("rejected", "تم الرفض"),
+        ("noted", "توجد ملاحظات"),
     ]
-    form = models.ForeignKey(Form, related_name="submissions", on_delete=models.SET_NULL,null=True)
+    form = models.ForeignKey(
+        Form, related_name="submissions", on_delete=models.SET_NULL, null=True
+    )
     user_identifier = models.CharField(max_length=255, null=True, blank=True)  # 🔥 New
     is_locked = models.BooleanField(default=False)  # 🔥 الحقل الجديد
     meta_data = models.JSONField(default=dict, blank=True)
     is_archived = models.BooleanField(default=False)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     notes = models.TextField(blank=True, null=True)
-    is_paied = models.BooleanField(default=False,null=True, blank=True)
-
-
+    is_paied = models.BooleanField(default=False, null=True, blank=True)
 
     modified_at = models.DateTimeField(auto_now=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
@@ -111,9 +115,8 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(null=True, blank=True)
     meta_data = models.JSONField(default=dict, blank=True)
-    
-    
+
+
 class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_archived=False)
-

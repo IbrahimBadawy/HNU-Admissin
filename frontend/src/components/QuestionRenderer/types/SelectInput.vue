@@ -38,7 +38,7 @@ const error = ref(null);
 // ✅ فلترة وترتيب الخيارات
 const groupedOptions = computed(() => {
   const map = {};
-
+  // console.log(props.options)
   props.options?.forEach((opt) => {
     if (opt.meta_data?.is_locked) return;
 

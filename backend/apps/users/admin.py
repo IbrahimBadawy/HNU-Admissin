@@ -19,8 +19,10 @@ class FacultyAdmin(admin.ModelAdmin):
 
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "faculty")
+    list_display = ("id", "name", "faculty","sis_code")
     list_filter = ("faculty__university", "faculty")
+    ordering = ("sis_code",)
+
 
 
 @admin.register(Role)
