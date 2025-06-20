@@ -79,6 +79,7 @@ class FormListSerializer(serializers.ModelSerializer):
             "is_archived",
             "meta_data",
             "submissions_count",
+            "academic_year"
         ]
 
 
@@ -104,6 +105,7 @@ class FormSerializer(serializers.ModelSerializer):
             "is_archived",
             "meta_data",
             "submissions_count",
+            "academic_year"
         ]
 
     def create(self, validated_data):

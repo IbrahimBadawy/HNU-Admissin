@@ -8,12 +8,13 @@ class Form(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
     is_archived = models.BooleanField(default=False)
-    syear = models.ForeignKey(
+    academic_year = models.ForeignKey(
         "coordination.AcademicYear",
         default='1',
-        related_name="syear",
+        related_name="academic_year",
         blank=True,
-        on_delete=models.DO_NOTHING,
+        null=True,
+        on_delete=models.SET_NULL,
     )
 
 

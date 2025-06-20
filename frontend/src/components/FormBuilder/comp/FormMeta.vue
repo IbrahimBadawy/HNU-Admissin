@@ -6,6 +6,17 @@
       <input v-model="form.title" class="input w-full" placeholder="ادخل عنوان النموذج" />
     </div>
 
+    <div>
+  <label class="font-semibold block mb-1">العام الأكاديمي</label>
+  <select v-model="form.academic_year" class="input w-full">
+    <option disabled value="">اختر العام الأكاديمي</option>
+    <option v-for="year in academicYears" :key="year.id" :value="year.id">
+      {{ year.name }}
+    </option>
+  </select>
+</div>
+
+
     <!-- وصف النموذج -->
     <div>
       <label class="font-semibold block mb-1">وصف النموذج</label>
@@ -49,9 +60,21 @@
 </template>
   
   <script setup>
+  import { ref, onMounted } from 'vue'
+import axios from '@/services/axios'
+
   import flatPickr from 'vue-flatpickr-component'
   import 'flatpickr/dist/flatpickr.css'
-  
+  const academicYears = ref([])
+
+  const fetchAcademicYears = async () => {
+  const res = await axios.get('/api/coordination/academic-years/')
+  academicYears.value = res.data.results || res.data
+}
+
+onMounted(() => {
+  fetchAcademicYears()
+})
   const props = defineProps({
     form: Object
   })

@@ -27,9 +27,11 @@ from .serializers import (
 class AcademicYearViewSet(viewsets.ModelViewSet):
     queryset = AcademicYear.objects.all()
     serializer_class = AcademicYearSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 class ProgramFeeViewSet(viewsets.ModelViewSet):
     queryset = ProgramFee.objects.all()
     serializer_class = ProgramFeeSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]  # ← فعل الفلترة هنا
+    filterset_fields = ['academic_year', 'program']  # ← دول الفلاتر المسموح بيها
