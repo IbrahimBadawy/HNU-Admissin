@@ -18,7 +18,7 @@
                     <div class="mx-auto w-full max-w-[440px]">
                         <div class="mb-10">
                             <h1 class="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">تسجيل الدخول</h1>
-                            <p class="text-base font-bold leading-normal text-white-dark">أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول</p>
+                            <p class="text-base font-bold leading-normal text-white-dark">أدخل الرقم القومي وكلمة المرور لتسجيل الدخول</p>
                         </div>
                         <form class="space-y-5 dark:text-white" @submit.prevent="handleLogin">
                             <div>
@@ -115,11 +115,14 @@
                 // console.log(res.data)
                 localStorage.setItem('user_id', res.data.id);
                 localStorage.setItem('user_is_staff', res.data.is_staff);
+                localStorage.setItem('user_is_supersdmin', res.data.is_superAdmin);
                 localStorage.setItem('user_username', res.data.username);
             } catch (error) {
                 console.error('Error loading submissions:', error);
             } finally {
-                router.push('/'); // غيّر المسار حسب المطلوب
+                setTimeout(() => {
+                router.push('/');
+            }, 100);
             }
         }
     };

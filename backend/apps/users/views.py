@@ -9,6 +9,9 @@ from django.utils.decorators import method_decorator
 from .models import Program
 from .serializers import *
 from .permissions import *
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
+
 
 from rest_framework.decorators import api_view
 
@@ -88,5 +91,26 @@ def get_user(request):
             "username": request.user.username,
             "email": request.user.email,
             "is_staff": request.user.is_staff,
+            # "is_superAdmin": request.user.is_superAdmin,  # ✅ تمت إضافتها هنا
+
         }
     )
+
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])  # ✅ فقط المشرفين يقدروا يغيروا كلمة المرور
+def set_user_password(request):
+    username = request.data.get("username")
+    new_password = request.data.get("password")
+
+    if not username or not new_password:
+        return Response({"error": "username and password are required"}, status=400)
+
+    try:
+        user = User.objects.get(username=username)
+        user.set_password(new_password)
+        user.save()
+        return Response({"success": True}, status=200)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)

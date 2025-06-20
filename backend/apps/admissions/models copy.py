@@ -80,7 +80,6 @@ class Option(models.Model):
 
 class FormSubmission(models.Model):
     STATUS_CHOICES = [
-        ('reviewed', 'مستوفي'),
         ('pending', 'تحت المراجعة'),
         ('accepted', 'تم القبول'),
         ('rejected', 'تم الرفض'),

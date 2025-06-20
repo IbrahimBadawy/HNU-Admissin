@@ -19,7 +19,7 @@
     const store = useAppStore();
 
     // meta
-    useMeta({ title: 'HNU Admission' });
+    // useMeta({ title: 'HNU Admission' });
 
     const mainLayout = computed(() => {
         return store.mainLayout === 'auth' ? authLayout : appLayout;

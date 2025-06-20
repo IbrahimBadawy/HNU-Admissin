@@ -5,7 +5,19 @@ import appSetting from '@/app-setting';
 
 const routes: RouteRecordRaw[] = [
     // dashboard
-    { path: '', name: 'home', component: () => import('../components/FormBuilder/FormList.vue') },
+    // { path: '', name: 'home', component: () => import('../components/FormBuilder/FormList.vue') },
+    {
+        path: '/welcome',
+        name: 'welcome',
+        component: () => import('@/components/welcome/welcome.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '',
+        name: 'dash',
+        component: () => import('@/components/welcome/dash_board.vue'),
+        meta: { layout: 'auth' },
+    },
 
     {
         path: '/icons',
@@ -18,7 +30,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/components/FormBuilder/FormBuilder.vue'),
     },
     {
-        path: '/admin-form-edit/:id',
+        path: '/admin-form-edit/:formId',
         name: 'admin-form-edit',
         component: () => import('../components/FormBuilder/FormBuilder.vue'),
         props: true,
@@ -123,12 +135,13 @@ router.beforeEach((to, from, next) => {
     }
 
     // ✅ حماية الصفحات الخاصة
-    const isPublicPage = to.path.startsWith('/auth');
+    // const isPublicPage = to.path.startsWith('/auth');
+    const isPublicPage = true;
     const accessToken = localStorage.getItem('access');
 
     if (!isPublicPage && !accessToken) {
         // ⛔ مفيش توكن → ورايح على صفحة خاصة → رجّعه على تسجيل الدخول
-        return next({ path: '/auth/signin' });
+        return next({ path: '/welcome' });
     }
 
     return next();

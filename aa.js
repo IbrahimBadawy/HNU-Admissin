@@ -964,7 +964,7 @@ const payload = {
 };
 
 axios
-  .put("http://admission.hnu.edu.eg/api/admissions/forms/30", payload, {
+  .put("https://admission.hnu.edu.eg/api/admissions/forms/30", payload, {
     headers: {
       "Content-Type": "application/json",
       // 'Authorization': 'Bearer YOUR_TOKEN' // لو محتاج توكن

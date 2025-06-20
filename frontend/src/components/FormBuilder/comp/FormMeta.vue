@@ -1,48 +1,52 @@
 <template>
-    <div class="space-y-4">
-      <div>
-        <label class="font-semibold block mb-1">عنوان النموذج</label>
-        <input v-model="form.title" class="input" placeholder="ادخل عنوان النموذج" />
+  <div class="space-y-6">
+    <!-- عنوان النموذج -->
+    <div>
+      <label class="font-semibold block mb-1">عنوان النموذج</label>
+      <input v-model="form.title" class="input w-full" placeholder="ادخل عنوان النموذج" />
+    </div>
+
+    <!-- وصف النموذج -->
+    <div>
+      <label class="font-semibold block mb-1">وصف النموذج</label>
+      <textarea v-model="form.meta_data.description" class="input w-full" placeholder="ادخل وصف النموذج"></textarea>
+    </div>
+
+    <!-- تفعيل النموذج -->
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 items-start sm:items-center">
+      <label class="font-semibold">تفعيل النموذج</label>
+      <input type="checkbox" v-model="form.is_active" />
+    </div>
+
+    <!-- أعدادات العدد -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <label class="font-semibold">اقصى عدد للمتقدمين</label>
+        <input type="number" v-model.number="form.meta_data.submissonsCount" class="input w-full sm:w-24" min="0" />
       </div>
-  
-      <!-- <div>
-        <label class="font-semibold block mb-1">وصف النموذج</label>
-        <textarea v-model="form.meta_data.description" class="input" placeholder="ادخل وصف النموذج"></textarea>
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+        <label class="font-semibold">اقصى عدد للمستخدم</label>
+        <input type="number" v-model.number="form.meta_data.userSubmitCount" class="input w-full sm:w-24" min="0" />
       </div>
-   -->
-      <div class="flex gap-4 items-center">
-        <label class="font-semibold">تفعيل النموذج</label>
-        <input type="checkbox" v-model="form.is_active" />
+    </div>
+
+    <!-- التواريخ -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <div class="w-full sm:w-auto">
+        <label class="font-semibold block mb-1">تاريخ البداية</label>
+        <flat-pickr v-model="form.meta_data.date_start" class="input w-full" :config="dateTime" />
       </div>
-  
-      <div class="flex gap-4">
-        <div class="flex items-center">
-          <label class="font-semibold mr-2">اقصى عدد للمتقدمين</label>
-          <input type="number" v-model.number="form.meta_data.submissonsCount" class="input w-24" min="0" />
-        </div>
-        <div class="flex items-center">
-          <label class="font-semibold mr-2">اقصى عدد للمستخدم</label>
-          <input type="number" v-model.number="form.meta_data.userSubmitCount" class="input w-24" min="0" />
-        </div>
+      <div class="w-full sm:w-auto">
+        <label class="font-semibold block mb-1">تاريخ النهاية</label>
+        <flat-pickr v-model="form.meta_data.date_end" class="input w-full" :config="dateTime" />
       </div>
-  
-      <div class="flex gap-4">
-        <div>
-          <label class="font-semibold block mb-1">تاريخ البداية</label>
-          <flat-pickr v-model="form.meta_data.date_start" class="input" :config="dateTime" />
-        </div>
-        <div>
-          <label class="font-semibold block mb-1">تاريخ النهاية</label>
-          <flat-pickr v-model="form.meta_data.date_end" class="input" :config="dateTime" />
-        </div>
-        <div class="flex gap-4 items-center">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
         <label class="font-semibold">تجاهل التوقيت</label>
         <input type="checkbox" v-model="form.meta_data.ignore_date" />
       </div>
-  
-      </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup>
   import flatPickr from 'vue-flatpickr-component'

@@ -11,17 +11,9 @@ from decimal import Decimal
 from rest_framework import status as drf_status
 from django.utils import timezone
 from django.shortcuts import redirect
-from django.db.models import Prefetch
-from apps.admissions.models import Tab, Section, Question, Option
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
-
-
 
 from .models import Fee, Order, Payment
 from .serializers import FeeSerializer, OrderSerializer, PaymentSerializer
-from rest_framework.permissions import IsAuthenticated
-
 
 # إعدادات بوابة الدفع
 # MERCHANT_ID = "merchant.TESTHNU"
@@ -29,30 +21,22 @@ from rest_framework.permissions import IsAuthenticated
 # BASE_URL = (
 #     "https://banquemisr.gateway.mastercard.com/api/rest/version/100/merchant/TESTHNU"
 # )
-
-# # Production
 MERCHANT_ID = "merchant.HNU"
 API_PASSWORD = "a5a19446c64c0bcf3dd6f404b0beed80"
 BASE_URL = (
     "https://banquemisr.gateway.mastercard.com/api/rest/version/100/merchant/HNU"
 )
 
+
 class FeeViewSet(viewsets.ModelViewSet):
     # queryset = Fee.objects.all()
-    permission_classes = [IsAuthenticated]
-
 
     serializer_class = FeeSerializer
-
     def get_queryset(self):
         return Fee.objects.select_related('submission').prefetch_related(
-            Prefetch('submission__form__tabs', queryset=Tab.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections', queryset=Section.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections__questions', queryset=Question.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections__questions__options', queryset=Option.objects.filter(is_archived=False).order_by('order')),
+            'submission__form__tabs__sections__questions__options',
             'submission__answers__question'
         )
-
 
     @action(detail=False, methods=["post"], url_path="add-to-submission")
     def add_to_submission(self, request):
@@ -75,31 +59,20 @@ class FeeViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     # queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["submission__id"]
-    search_fields = ["submission__id"]
-
 
     def get_queryset(self):
         return Order.objects.select_related('submission').prefetch_related(
-            Prefetch('submission__form__tabs', queryset=Tab.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections', queryset=Section.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections__questions', queryset=Question.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('submission__form__tabs__sections__questions__options', queryset=Option.objects.filter(is_archived=False).order_by('order')),
+            'submission__form__tabs__sections__questions__options',
             'submission__answers__question'
         )
+
 
 class PaymentViewSet(viewsets.ReadOnlyModelViewSet):
     # queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Payment.objects.select_related('order__submission').prefetch_related(
-            Prefetch('order__submission__form__tabs', queryset=Tab.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('order__submission__form__tabs__sections', queryset=Section.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('order__submission__form__tabs__sections__questions', queryset=Question.objects.filter(is_archived=False).order_by('order')),
-            Prefetch('order__submission__form__tabs__sections__questions__options', queryset=Option.objects.filter(is_archived=False).order_by('order')),
+            'order__submission__form__tabs__sections__questions__options',
             'order__submission__answers__question'
         )
 
@@ -132,8 +105,8 @@ class InitiatePaymentView(APIView):
         # return_url = f"http://admission.hnu.edu.eg:83/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
         # return_url = f"http://193.227.34.93/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
         # return_url = f"http://pay.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
-        # return_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
         return_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        # return_url = f"http://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
         # return_url = f"https://www.google.com/"
 
         payload = {
@@ -190,16 +163,13 @@ class PaymentCheckView(APIView):
             order_status = result.get("status")
             payment_result = result.get("result")
 
-            if order_status in ["CAPTURED"]:
+            if order_status in ["SUCCESS", "CAPTURED"] or payment_result == "SUCCESS":
                 order = Order.objects.get(id=order_id)
 
                 # تحديث order
                 order.status = "paid"
                 order.raw_response = result
                 order.save()
-
-                order.submission.is_paied = True
-                order.submission.save()
 
                 # تعليم الرسوم المدفوعة
                 order.submission.fees.filter(is_paid=False).update(is_paid=True)
@@ -262,8 +232,8 @@ class PaymentRedirectView(APIView):
             submission_id = request.GET.get("id")
             tab_id = request.GET.get("tabId")
 
-            # frontend_url = f"https://c4fb-41-33-164-93.ngrok-free.app/submissions/{form_id}/{submission_id}/edit/{tab_id}"
-            frontend_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}"
+            frontend_url = f"http://c4fb-41-33-164-93.ngrok-free.app/submissions/{form_id}/{submission_id}/edit/{tab_id}"
+            # frontend_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}"
             return redirect(f"{frontend_url}?order_id={order_id}")
 
         except Exception as e:

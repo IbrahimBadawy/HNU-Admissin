@@ -1,13 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    FormViewSet,
-    FormSubmissionViewSet,
-    SubmissionListViewSet,
-    FormListViewSet,
-    FileUploadView,
-    UniqueQuestionAnswersView,
-)
+from .views import FormViewSet, FormSubmissionViewSet,SubmissionListViewSet,FormListViewSet,FileUploadView
+
 
 
 router = DefaultRouter()
@@ -18,10 +12,7 @@ router.register(r"submissions-list", SubmissionListViewSet, basename="submission
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("upload/", FileUploadView.as_view(), name="file-upload"),
-    path(
-        "forms/<int:form_id>/unique-questions-answers/",
-        UniqueQuestionAnswersView.as_view(),
-        name="unique-question-answers",
-    ),
+    path('upload/', FileUploadView.as_view(), name='file-upload'),
+
+
 ]

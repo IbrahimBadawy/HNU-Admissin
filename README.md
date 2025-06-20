@@ -8,9 +8,11 @@ virtualenv venv
 venv\scripts\activate
 
 pip install -r requirements.txt
-pip freeze > requirements.txt  
-cd backend
+cd ..
+pip freeze > requirements.txt 
 
+venv\scripts\activate
+cd backend
 python manage.py collectstatic
 python manage.py makemigrations
 python manage.py migrate
@@ -25,8 +27,12 @@ python manage.py migrate
 daphne -b pay.hnu.edu.eg -p 8000 hnu_addmission.asgi:application
 
 cd hnu-admission
+
+
+venv\scripts\activate
 cd frontend
 npm run dev
+npm run build
 
 npm install 
 

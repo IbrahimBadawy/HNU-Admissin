@@ -25,6 +25,9 @@ export const useAuthStore = defineStore('auth', {
 
                 localStorage.setItem("access", res.data.access);
                 localStorage.setItem("refresh", res.data.refresh);
+
+
+
             } catch {
                 this.error = 'بيانات الدخول غير صحيحة';
             }

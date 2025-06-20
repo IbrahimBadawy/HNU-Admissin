@@ -1,6 +1,6 @@
 <template>
     <div class="space-y-4">
-        <draggable v-model="localTabs" handle=".handle-tab" group="tabs" @end="updateOrder">
+        <draggable v-model="localTabs" handle=".handle-tab" group="tabs"  @end="updateOrder">
             <template v-for="(tab, i) in localTabs" :key="i">
                 <div class="border border-[#d3d3d3] rounded dark:border-[#1b2e4b] m-2">
                     <button
@@ -79,7 +79,7 @@
                                                         <QuestionEditor
                                                             v-model:title="question.title"
                                                             v-model:id="question.id"
-                                                            :k="q"
+                                                            v-bind:k="q"
                                                             :i="i"
                                                             :tab="tab"
                                                             :question="question"

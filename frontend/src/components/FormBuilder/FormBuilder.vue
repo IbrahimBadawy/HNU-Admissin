@@ -7,7 +7,7 @@
         <DynamicSections v-model:tabs="form.tabs" />
 
         <!-- زر الحفظ -->
-        <SaveButton :formID="route.params.id" :data="form" @save="saveForm" @edit="editForm" />
+        <SaveButton :formID="route.params.formId" :data="form" @save="saveForm" @edit="editForm" />
     </div>
 </template>
 
@@ -21,7 +21,7 @@
 
     const route = useRoute();
     const router = useRouter();
-    const formId = ref(route.params.id);
+    const formId = ref(route.params.formId);
     const defaultForm = () => ({
         title: '',
         is_active: false,
@@ -44,11 +44,11 @@
     };
 
     watch(
-        () => route.params.id, // 🟡 راقب القيمة من route مباشرة
+        () => route.params.formId, // 🟡 راقب القيمة من route مباشرة
         async (id) => {
             if (id) {
                 try {
-                    const response = await axios.get(`api/admissions/forms/${id}`);
+                    const response = await axios.get(`api/admissions/forms/${id}/`);
                     form.value = response.data;
                     // console.log('✅ Loaded form:', form.value);
                     
@@ -65,7 +65,7 @@
     );
     const editForm = async () => {
         try {
-            const response = await axios.put(`api/admissions/forms/${route.params.id}/`, form.value);
+            const response = await axios.put(`api/admissions/forms/${route.params.formId}/`, form.value);
             alert('تم حفظ النموذج بنجاح!');
             router.push(`/forms/`);
             // console.log(response.data);

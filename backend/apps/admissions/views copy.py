@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 from django_filters.rest_framework import DjangoFilterBackend
 from django.core.files.storage import default_storage
-from django.db.models import Count,OuterRef, Exists, Q
+from django.db.models import Count, Q
 from django.db.models import OuterRef, Subquery
 
 
@@ -128,41 +128,35 @@ class SubmissionListViewSet(ReadOnlyModelViewSet):
             qs = qs.filter(user_identifier=user.username)
  
 
-  
-        # ✅ تجميع فلاتر البحث الديناميكية
-        params = self.request.query_params
+    # ✅ البحث عن كل فلاتر الأسئلة/الإجابات الديناميكية
         filters = []
+        params = self.request.query_params
 
-        # دعم السؤال الأساسي بدون suffix
-        if params.get("question_title") or params.get("answer_text"):
-            filters.append({
-                "question_title": params.get("question_title", ""),
-                "answer_text": params.get("answer_text", "")
-            })
-
-        # دعم أي عدد من الفلاتر باستخدام suffix
         for key in params:
             if key.startswith("question_title_"):
                 suffix = key.split("_")[-1]
-                q = params.get(f"question_title_{suffix}", "")
-                a = params.get(f"answer_text_{suffix}", "")
-                if q or a:
-                    filters.append({
-                        "question_title": q,
-                        "answer_text": a
-                    })
+                question_title = params.get(f"question_title_{suffix}")
+                answer_text = params.get(f"answer_text_{suffix}")
+                if question_title or answer_text:
+                    filters.append(
+                        Q(answers__question__title__icontains=question_title if question_title else '') &
+                        Q(answers__answer_text__icontains=answer_text if answer_text else '') &
+                        ~Q(answers__answer_text="") &
+                        Q(answers__answer_text__isnull=False)
+                    )
 
-        # ✅ تطبيق الفلاتر باستخدام Exists
-        for idx, f in enumerate(filters):
-            subquery = Answer.objects.filter(
-                submission=OuterRef('pk'),
-                question__title__icontains=f["question_title"],
-                answer_text__icontains=f["answer_text"]
-            ).exclude(answer_text="").exclude(answer_text__isnull=True)
-            alias = f"has_match_{idx}"
-            qs = qs.annotate(**{alias: Exists(subquery)}).filter(**{alias: True})
+        # also include the base q1/a1 if present
+        if params.get("question_title") or params.get("answer_text"):
+            filters.append(
+                Q(answers__question__title__icontains=params.get("question_title", "")) &
+                Q(answers__answer_text__icontains=params.get("answer_text", "")) &
+                ~Q(answers__answer_text="") &
+                Q(answers__answer_text__isnull=False)
+            )
 
-        return qs.distinct()
+        for f in filters:
+            qs = qs.filter(f)
+        return qs
 
 
 class FileUploadView(APIView):

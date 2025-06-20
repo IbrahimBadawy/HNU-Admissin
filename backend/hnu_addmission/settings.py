@@ -34,9 +34,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
+    "silk",
     "channels",
     "corsheaders",
-    'django_filters',
+    "django_filters",
     "apps.users",
     "apps.admissions",
     "apps.payments",
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # "silk.middleware.SilkyMiddleware",  # لازم أول واحد
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -57,7 +59,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-CORS_ALLOW_ALL_ORIGINS = False  
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:8000",
@@ -65,7 +67,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://admission.hnu.edu.eg",
     "https://admission.hnu.edu.eg",
-
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://admission.hnu.edu.eg",
@@ -74,8 +75,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://admission.hnu.edu.eg:81",
     "http://localhost:5173",
     "http://localhost:8000",
-
-
 ]
 
 # REST_FRAMEWORK = {
@@ -92,19 +91,22 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ],
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.AllowAny",),
 }
 
 
-
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=300),   # ⏱️ صلاحية access token
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # 🔁 صلاحية refresh token
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'AUTH_HEADER_TYPES': ('Bearer',),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=300),  # ⏱️ صلاحية access token
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # 🔁 صلاحية refresh token
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 ROOT_URLCONF = "hnu_addmission.urls"
@@ -148,11 +150,11 @@ CHANNEL_LAYERS = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "hnu_admission",           # اسم قاعدة البيانات
-        "USER": "postgres",                # اسم المستخدم (حسب إعداداتك)
-        "PASSWORD": "1qa2ws3ED#",       # كلمة السر
-        "HOST": "127.0.0.1",               # أو ip السيرفر
-        "PORT": "5432",                    # البورت الافتراضي لـ PostgreSQL
+        "NAME": "hnu_admission",  # اسم قاعدة البيانات
+        "USER": "postgres",  # اسم المستخدم (حسب إعداداتك)
+        "PASSWORD": "1qa2ws3ED#",  # كلمة السر
+        "HOST": "127.0.0.1",  # أو ip السيرفر
+        "PORT": "5432",  # البورت الافتراضي لـ PostgreSQL
     }
 }
 

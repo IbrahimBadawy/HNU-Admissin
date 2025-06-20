@@ -4,8 +4,8 @@ import { jwtDecode } from 'jwt-decode';
 const instance = axios.create({
     // baseURL: 'http://localhost', // عدلها لو عندك سيرفر تاني
     // baseURL: 'http://admission.hnu.edu.eg:81', // عدلها لو عندك سيرفر تاني
-    baseURL: 'http://admission.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
-    // baseURL: 'https://admission.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
+    // baseURL: 'http://admission.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
+    baseURL: 'https://admission.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
     // baseURL: 'http://193.227.34.93', // عدلها لو عندك سيرفر تاني
     // baseURL: 'http://pay.hnu.edu.eg', // عدلها لو عندك سيرفر تاني
 });

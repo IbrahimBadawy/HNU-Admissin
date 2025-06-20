@@ -11,4 +11,5 @@ urlpatterns = [
     path("", include(router.urls)),
     path("signup/", SignupView.as_view(), name="signup"),
     path("user_data/", get_user, name="user_data"),
+    path("set_user_password/", set_user_password, name="set_user_password"),
 ]

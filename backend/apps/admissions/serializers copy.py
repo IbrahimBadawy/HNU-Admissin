@@ -324,24 +324,12 @@ class FormSubmissionSerializer(serializers.ModelSerializer):
 
         return instance
 
-class AnswerWithQuestionTitleSerializer(serializers.ModelSerializer):
-    question_title = serializers.CharField(source="question.title", read_only=True)
-
-    class Meta:
-        model = Answer
-        fields = ["question_title", "answer_text"]
 
 class SubmissionListSerializer(serializers.ModelSerializer):
     is_archived = serializers.BooleanField(required=False)
     meta_data = serializers.JSONField(required=False)
     modified_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
-    answers = serializers.SerializerMethodField()
 
-    def get_answers(self, obj):
-        return AnswerWithQuestionTitleSerializer(
-            obj.answers.filter(answer_text__isnull=False).exclude(answer_text=""),
-            many=True
-        ).data
     class Meta:
         model = FormSubmission
         fields = [
@@ -356,5 +344,4 @@ class SubmissionListSerializer(serializers.ModelSerializer):
             "modified_at",
             "meta_data",
             "is_archived",
-            "answers",
         ]

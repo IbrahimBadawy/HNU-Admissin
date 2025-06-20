@@ -173,7 +173,7 @@
         return (props.mode === 'create' ? configsLocal.value : props.configs)?.fileTypes || '*/*';
     });
 
-    const isImage = (link) => /\.(png|jpe?g|webp|gif)$/i.test(link);
+    const isImage = (link) => /\.(png|jpe?g|jpg|webp|gif)$/i.test(link);
     const getFileName = (link) => link.split('/').pop();
 
     const removeFile = (index) => {

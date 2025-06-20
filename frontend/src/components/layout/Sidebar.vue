@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'dark text-white-dark': store.semidark }">
-        <nav class="sidebar fixed min-h-screen h-full top-0 bottom-0 w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] z-50 transition-all duration-300">
+        <nav class="sidebar fixed min-h-screen h-full top-0 bottom-0 w-[260px] xxxs:w-[160px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] z-50 transition-all duration-300">
             <div class="bg-white dark:bg-[#0e1726] h-full">
                 <div class="flex justify-between items-center px-4 py-3">
                     <router-link to="/" class="main-logo flex items-center shrink-0">
@@ -142,66 +142,7 @@
         IconMenuAuthentication,
         IconMenuDocumentation,
     };
-    // const iconName = ref<keyof typeof iconComponents>('IconMenuDatatables');
-    // const menuTree = [
-    //     {
-    //         id: '1.',
-    //         name: 'tables_and_forms1',
-    //         type: 'section',
-    //         to: '/',
-    //         children: [
-    //             {
-    //                 id: '1.1.',
-    //                 name: 'dashboard',
-    //                 type: 'dropdown',
-    //                 icon: 'IconMenuDashboard',
-    //                 to: '/',
-    //                 children: [
-    //                     { id: '1.1.1.', name: 'sales', type: 'link', to: '/' },
-    //                     { id: '1.1.2.', name: 'analytics', type: 'link', to: '/analytics' },
-    //                 ],
-    //             },
-    //         ],
-    //     },
-
-    //     {
-    //         id: '2.',
-    //         name: 'tables_and_forms2',
-    //         type: 'section',
-    //         to: '/',
-    //         children: [
-    //             {
-    //                 id: '2.1.',
-    //                 name: 'tables',
-    //                 type: 'link',
-    //                 icon: 'IconMenuElements',
-    //                 to: '/analytics',
-    //                 children: [],
-    //             },
-    //             {
-    //                 id: '2.3.',
-    //                 name: 'tables',
-    //                 type: 'link',
-    //                 icon: 'IconMenuElements',
-    //                 to: '/tables',
-    //                 children: [],
-    //             },
-    //             {
-    //                 id: '2.2.',
-    //                 name: 'forms',
-    //                 type: 'dropdown',
-    //                 icon: 'IconMenuTables',
-    //                 to: '/',
-    //                 children: [
-    //                     { id: '2.2.1.', name: 'basic', type: 'link', to: '/forms/basic' },
-    //                     { id: '2.2.2.', name: 'advanced', type: 'link', to: '/forms/advanced' },
-    //                     { id: '2.2.3.', name: 'Nested Menu', type: 'link', to: '/forms/advanced' },
-    //                 ],
-    //             },
-    //         ],
-    //     },
-
-    // ];
+ 
 
     const store = useAppStore();
     const activeDropdown: any = ref('');
