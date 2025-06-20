@@ -197,6 +197,8 @@ declare module 'vue' {
     Options: typeof import('./src/components/QuestionRenderer/types/Options.vue')['default']
     PaymentInput: typeof import('./src/components/QuestionRenderer/types/PaymentInput.vue')['default']
     PaymentInput22: typeof import('./src/components/QuestionRenderer/types/PaymentInput22.vue')['default']
+    ProgramFees: typeof import('./src/components/coordination/ProgramFees.vue')['default']
+    ProgramManager: typeof import('./src/components/coordination/ProgramManager.vue')['default']
     QuestionEditor: typeof import('./src/components/FormBuilder/comp/QuestionEditor.vue')['default']
     QuestionRenderer: typeof import('./src/components/QuestionRenderer/QuestionRenderer.vue')['default']
     RadioInput: typeof import('./src/components/QuestionRenderer/types/RadioInput.vue')['default']

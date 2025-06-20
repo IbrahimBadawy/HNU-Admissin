@@ -153,12 +153,12 @@
     const fetchSubmission = async () => {
         try {
             if (is_staff) {
-                const response = await axios.get(`/media/staff_menu.json`);
+                const response = await axios.get(`/media/staff_menu_2.json`);
                 menuTree.value = response.data;
                 
             }
             else{
-                const response = await axios.get(`/media/user_menu.json`);
+                const response = await axios.get(`/media/user_menu_2.json`);
                 menuTree.value = response.data;
 
             }

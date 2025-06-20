@@ -83,7 +83,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/components/FormBuilder/SubmissionForm.vue'),
         props: true,
     },
-
+    {
+        path: '/coordination/programs',
+        name: 'coordination-programs',
+        component: () => import('@/components/coordination/ProgramManager.vue'),
+    },
+    {
+        path: '/coordination/fees',
+        name: 'coordination-fees',
+        component: () => import('@/components/coordination/ProgramFees.vue'),
+    },
     // authentication
     {
         path: '/auth/signin',
