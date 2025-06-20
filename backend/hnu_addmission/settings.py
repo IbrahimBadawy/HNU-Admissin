@@ -94,6 +94,8 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    'page_size_query_param': 'page_size', # ← يسمح بتغيير الحجم من URL
+    'max_page_size' : 100000,  # ← الحد الأقصى المسموح به
     "DEFAULT_FILTER_BACKENDS": [
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",

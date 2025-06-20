@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -11,6 +11,9 @@ from .serializers import *
 from .permissions import *
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend
+from users.pagination import ProgramPagination  # ← استورد الكلاس
+
 
 
 from rest_framework.decorators import api_view
@@ -20,6 +23,8 @@ class ProgramViewSet(viewsets.ModelViewSet):
     queryset = Program.objects.all()
     serializer_class = ProgramSerializer
     permission_classes = [IsAuthenticated, HasUserPageRolePermission]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    pagination_class = ProgramPagination  # ← أهو
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -41,6 +46,8 @@ class FacultyViewSet(viewsets.ModelViewSet):
     queryset = Faculty.objects.all()
     serializer_class = FacultySerializer
     permission_classes = [IsAuthenticated, HasUserPageRolePermission]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+
 
     def get_queryset(self):
         if self.request.user.is_superuser:

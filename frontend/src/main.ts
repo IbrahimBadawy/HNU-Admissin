@@ -1,8 +1,14 @@
 import { createApp } from 'vue';
 import App from '@/App.vue';
+import * as lucide from 'lucide-vue-next'
+
 
 const app = createApp(App);
 
+
+for (const [key, component] of Object.entries(lucide)) {
+    app.component(key, component)
+  }
 // pinia store
 import { createPinia } from 'pinia';
 const pinia = createPinia();

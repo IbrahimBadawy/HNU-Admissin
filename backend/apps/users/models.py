@@ -36,7 +36,7 @@ class University(models.Model):
 
 class Faculty(models.Model):
     name = models.CharField(max_length=100)
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE,default='1')
 
     def __str__(self):
         return f"{self.name} ({self.university.name})"
@@ -45,7 +45,7 @@ class Faculty(models.Model):
 class Program(models.Model):
     name = models.CharField(max_length=100)
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
-    sis_code = models.CharField(null=True, blank=True)
+    sis_code = models.CharField(null=True, blank=True, )
 
     def __str__(self):
         return f"{self.faculty.name} - {self.name}"

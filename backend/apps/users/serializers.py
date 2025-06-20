@@ -17,8 +17,9 @@ class FacultySerializer(serializers.ModelSerializer):
 
 
 class ProgramSerializer(serializers.ModelSerializer):
-    faculty = FacultySerializer(read_only=True)
+    faculty = serializers.PrimaryKeyRelatedField(queryset=Faculty.objects.all())
+    sis_code = serializers.CharField(required=False)
 
     class Meta:
         model = Program
-        fields = ["id", "name", "faculty"]
+        fields = ["id", "name", "faculty",'sis_code']
