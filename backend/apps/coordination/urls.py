@@ -10,7 +10,7 @@ from .views import (
 
 # coordination/urls.py
 router = DefaultRouter()
-router.register(r'academic-years', AcademicYearViewSet)
+router.register(r'a', AcademicYearViewSet)
 router.register(r'program-fees', ProgramFeeViewSet)
 
 urlpatterns = [

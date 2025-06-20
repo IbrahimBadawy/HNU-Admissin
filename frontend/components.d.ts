@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AcademicYears: typeof import('./src/components/coordination/AcademicYears.vue')['default']
     Button: typeof import('primevue/button')['default']
     CheckboxInput: typeof import('./src/components/QuestionRenderer/types/CheckboxInput.vue')['default']
     copy: typeof import('./src/components/QuestionRenderer/Validator copy.vue')['default']

@@ -25,7 +25,7 @@
     const defaultForm = () => ({
         title: '',
         is_active: false,
-        meta_data: { description: '', date_start: '', date_end: '', submissonsCount: 100000, userSubmitCount: 1,ignore_date:false },
+        meta_data: { description: '', academic_year: '', date_start: '', date_end: '', submissonsCount: 100000, userSubmitCount: 1,ignore_date:false },
         tabs: [],
     });
 
