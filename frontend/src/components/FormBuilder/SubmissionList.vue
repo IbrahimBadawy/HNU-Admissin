@@ -514,4 +514,7 @@ watch(
 .status-noted {
     @apply bg-yellow-100 text-yellow-800 px-2 py-1 rounded;
 }
+.status-ibrahim {
+    @apply bg-yellow-100 text-yellow-800 px-2 py-1 rounded;
+}
 </style>
