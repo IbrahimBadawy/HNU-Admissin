@@ -97,6 +97,7 @@
                 {{ getProgramName(submission_dat.program) }}
             </div>
             <button class="btn mt-2" @click="openFeesModal">دفع مصاريف الكلية</button>
+
         </div>
         <!-- ✅ المودال -->
         <Dialog v-model:visible="showFeesModal" modal header="دفع مصاريف الكلية" :style="{ width: '40rem' }">
@@ -222,7 +223,7 @@ const fetchProgramsAndFaculties = async () => {
     const resProg = await axios.get('/api/users/programs/');
     const facs = resFac.data.results || resFac.data;
     const progs = resProg.data.results || resProg.data;
-
+console.log(facs)
     groupedPrograms.value = facs.map(fac => {
         const facProgs = progs
             .filter(p => p.faculty === fac.id || p.faculty?.id === fac.id)
@@ -369,6 +370,7 @@ const paySelectedFees = async () => {
 
 
 const getProgramName = (id) => {
+
     for (let f of groupedPrograms.value) {
         const p = f.programs.find(prog => prog.id === id);
         if (p) return p.name;
