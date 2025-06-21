@@ -15,11 +15,15 @@ from django.db.models import Prefetch
 from apps.admissions.models import Tab, Section, Question, Option
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db import IntegrityError
+from rest_framework.exceptions import ValidationError
 
 
 
 from .models import Fee, Order, Payment
+from .models import FeesTypes,FeesList,ProgramFee
 from .serializers import FeeSerializer, OrderSerializer, PaymentSerializer
+from .serializers import FeesTypesSerializer,FeesListSerializer,ProgramFeeSerializer
 from rest_framework.permissions import IsAuthenticated
 
 
@@ -37,12 +41,19 @@ BASE_URL = (
     "https://banquemisr.gateway.mastercard.com/api/rest/version/100/merchant/HNU"
 )
 
+
+
 class FeeViewSet(viewsets.ModelViewSet):
     # queryset = Fee.objects.all()
     permission_classes = [IsAuthenticated]
 
 
     serializer_class = FeeSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ["submission_id"]
+    search_fields = ["id"]  # تأكد من وجود form__title
+
+
 
     def get_queryset(self):
         return Fee.objects.select_related('submission').prefetch_related(
@@ -59,17 +70,37 @@ class FeeViewSet(viewsets.ModelViewSet):
         submission_id = request.data.get("submission_id")
         description = request.data.get("description")
         amount = request.data.get("amount")
-        print(f'######{amount}### {submission_id}### {description}##')
-        if not (submission_id and description and amount):
+        fee_list_id = request.data.get("fee_list_id")
+        fee_type = request.data.get("fee_type")
+
+        if not (submission_id and description and amount and fee_list_id):
             return Response({"error": "جميع الحقول مطلوبة"}, status=400)
 
-        FormSubmission = apps.get_model("admissions", "FormSubmission")
-        submission = get_object_or_404(FormSubmission, id=submission_id)
+        try:
+            FormSubmission = apps.get_model("admissions", "FormSubmission")
+            ProgramFee = apps.get_model("payments", "ProgramFee")
 
-        fee = Fee.objects.create(
-            submission=submission, description=description, amount=amount
-        )
-        return Response(FeeSerializer(fee).data, status=201)
+            submission = get_object_or_404(FormSubmission, id=submission_id)
+            fees_list = get_object_or_404(ProgramFee, id=fee_list_id)
+
+            # ✅ محاولة الإنشاء أو استرجاع الموجود
+            fee, created = Fee.objects.get_or_create(
+                submission=submission,
+                fees_list=fees_list,
+                defaults={
+                    "description": description,
+                    "amount": amount,
+                    "fee_type": fee_type,
+                }
+            )
+
+            return Response(FeeSerializer(fee).data, status=201 if created else 200)
+
+        except Exception as e:
+            return Response(
+                {"error": f"حدث خطأ غير متوقع: {str(e)}"},
+                status=500
+            )
 
 
 class OrderViewSet(viewsets.ReadOnlyModelViewSet):
@@ -108,10 +139,12 @@ class InitiatePaymentView(APIView):
     def post(self, request):
         fee_ids = request.data.get("fee_ids", [])
         form_id = request.data.get("form_id")
-        tab_id = request.data.get("tab_id")
+        order_type = request.data.get("order_type")
         submission_id = request.data.get("submission_id")
+        description = ""
 
-        if not fee_ids or not (form_id and tab_id and submission_id):
+
+        if not fee_ids or not (form_id and order_type and submission_id):
             return Response({"error": "بيانات ناقصة"}, status=400)
 
         fees = Fee.objects.filter(id__in=fee_ids, is_paid=False)
@@ -124,11 +157,17 @@ class InitiatePaymentView(APIView):
         total_amount = round(base_amount + surcharge, 2)
 
         order = Order.objects.create(
-            id=uuid.uuid4(), submission=submission, total_amount=total_amount
+            id=uuid.uuid4(), submission=submission, total_amount=total_amount,order_type=order_type
         )
+        order.fees.set(fees)  # ⬅️ أضف جميع الرسوم للطلب
+
+        if (order_type=='initial'):
+            description = "رسوم تقديم"
+        if (order_type=='collage'):
+            description = "رسوم الكلية"
 
         # ✅ يرجع على نفس صفحة الإدخال
-        return_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/edit/{tab_id}?order_id={order.id}"
+        return_url = f"https://admission.hnu.edu.eg/submissions/{form_id}/{submission_id}/?order_id={order.id}"
 
         payload = {
             "apiOperation": "INITIATE_CHECKOUT",
@@ -141,7 +180,7 @@ class InitiatePaymentView(APIView):
                 "currency": "EGP",
                 "amount": str(total_amount),
                 "id": str(order.id),
-                "description": "رسوم تقديم"
+                "description": description 
             },
         }
 
@@ -192,13 +231,33 @@ class PaymentCheckView(APIView):
                 order.raw_response = result
                 order.save()
 
-                order.submission.is_paied = True
+                if (order.order_type=='initial'):
+                    order.submission.is_paied = True
+                if (order.order_type=='collage'):
+                    order.submission.is_paied_collage = True
+
+
                 order.submission.save()
 
-                # تعليم الرسوم المدفوعة
-                order.submission.fees.filter(is_paid=False).update(is_paid=True)
 
-                # إنشاء سجل الدفع
+
+                # تعليم الرسوم المدفوعة
+                # print("###########################")
+                # print("###########################")
+                # print("###########################")
+                # ✅ تحديث حالة الرسوم المرتبطة
+                order.fees.update(is_paid=True)
+
+                # ✅ Debug: التأكد من التحديث
+                print("✅ الرسوم المدفوعة:", list(order.fees.filter(is_paid=True).values("id", "description", "amount", "is_paid","fees_list")))
+
+                # print("###########################")
+                # print("###########################")
+                # print("###########################")
+            
+                # order.fees.filter(is_paid=False).update(is_paid=True)
+
+                # # إنشاء سجل الدفع
                 Payment.objects.update_or_create(
                     order=order,
                     defaults={
@@ -262,3 +321,25 @@ class PaymentRedirectView(APIView):
 
         except Exception as e:
             return Response({"error": str(e)}, status=500)
+        
+
+
+class FeesTypesViewSet(viewsets.ModelViewSet):
+    queryset = FeesTypes.objects.all()
+    serializer_class = FeesTypesSerializer
+    # permission_classes = [IsAuthenticated]
+class FeesListViewSet(viewsets.ModelViewSet):
+    queryset = FeesList.objects.all()
+    serializer_class = FeesListSerializer
+    # permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['fees_types']
+    search_fields = ['title']
+
+
+class ProgramFeeViewSet(viewsets.ModelViewSet):
+    queryset = ProgramFee.objects.all()
+    serializer_class = ProgramFeeSerializer
+    # permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]  # ← فعل الفلترة هنا
+    filterset_fields = ['academic_year', 'program']  # ← دول الفلاتر المسموح بيها

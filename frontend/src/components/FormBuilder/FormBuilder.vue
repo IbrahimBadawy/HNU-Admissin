@@ -25,7 +25,8 @@
     const defaultForm = () => ({
         title: '',
         is_active: false,
-        meta_data: { description: '', academic_year: '', date_start: '', date_end: '', submissonsCount: 100000, userSubmitCount: 1,ignore_date:false },
+        academic_year: 1,
+        meta_data: { description: '', date_start: '', date_end: '', submissonsCount: 100000, userSubmitCount: 1,ignore_date:false },
         tabs: [],
     });
 
@@ -50,7 +51,7 @@
                 try {
                     const response = await axios.get(`api/admissions/forms/${id}/`);
                     form.value = response.data;
-                    // console.log('✅ Loaded form:', form.value);
+                    console.log('✅ Loaded form:', form.value);
                     
                 } catch (error) {
                     console.error('❌ Error loading form:', error);

@@ -14,7 +14,7 @@
                     {{ year.name }} ({{ year.start_date }} - {{ year.end_date }})
                 </div>
                 <div v-else class="flex flex-wrap gap-2 flex-1">
-                    <input v-model="year.editName" class="form-input flex-1" placeholder="اسم العام" />
+                    <input v-model="year.editName" class="form-input flex-1" placeholder="العام الأكاديمي" />
                     <input v-model="year.editStart" type="date" class="form-input" />
                     <input v-model="year.editEnd" type="date" class="form-input" />
                 </div>
@@ -37,7 +37,7 @@ const years = ref([]);
 const newYear = ref({ name: '', start_date: '', end_date: '' });
 
 const fetchYears = async () => {
-    const res = await axios.get('/api/coordination/academic-years/');
+    const res = await axios.get('/api/users/academic-years/');
     const data = res.data.results || res.data;
     years.value = data.map(y => ({
         ...y,
@@ -50,7 +50,7 @@ const fetchYears = async () => {
 
 const createYear = async () => {
     if (!newYear.value.name) return;
-    await axios.post('/api/coordination/academic-years/', newYear.value);
+    await axios.post('/api/users/academic-years/', newYear.value);
     newYear.value = { name: '', start_date: '', end_date: '' };
     fetchYears();
 };
@@ -67,7 +67,7 @@ const cancelEdit = (year) => {
 };
 
 const updateYear = async (year) => {
-    await axios.put(`/api/coordination/academic-years/${year.id}/`, {
+    await axios.put(`/api/users/academic-years/${year.id}/`, {
         name: year.editName,
         start_date: year.editStart,
         end_date: year.editEnd,
@@ -77,7 +77,7 @@ const updateYear = async (year) => {
 };
 
 const deleteYear = async (id) => {
-    await axios.delete(`/api/coordination/academic-years/${id}/`);
+    await axios.delete(`/api/users/academic-years/${id}/`);
     fetchYears();
 };
 

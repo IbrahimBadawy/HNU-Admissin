@@ -100,3 +100,13 @@ class UserDataAccess(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.university or ''} - {self.faculty or ''} - {self.program or ''}"
+# Create your models here.
+class AcademicYear(models.Model):
+    name = models.CharField(max_length=20)        # مثال: "2024/2025"
+    start_date = models.DateField()
+
+    end_date = models.DateField()
+    sis_add = models.CharField(blank=True) 
+    def __str__(self):
+        return self.name
+ 

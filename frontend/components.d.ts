@@ -197,6 +197,7 @@ declare module 'vue' {
     'OptionEditor copy': typeof import('./src/components/FormBuilder/comp/OptionEditor copy.vue')['default']
     Options: typeof import('./src/components/QuestionRenderer/types/Options.vue')['default']
     PaymentInput: typeof import('./src/components/QuestionRenderer/types/PaymentInput.vue')['default']
+    'PaymentInput copy': typeof import('./src/components/QuestionRenderer/types/PaymentInput copy.vue')['default']
     PaymentInput22: typeof import('./src/components/QuestionRenderer/types/PaymentInput22.vue')['default']
     ProgramFees: typeof import('./src/components/coordination/ProgramFees.vue')['default']
     ProgramManager: typeof import('./src/components/coordination/ProgramManager.vue')['default']

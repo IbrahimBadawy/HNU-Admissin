@@ -68,7 +68,7 @@ import axios from '@/services/axios'
   const academicYears = ref([])
 
   const fetchAcademicYears = async () => {
-  const res = await axios.get('/api/coordination/academic-years/')
+  const res = await axios.get('/api/users/academic-years/')
   academicYears.value = res.data.results || res.data
 }
 

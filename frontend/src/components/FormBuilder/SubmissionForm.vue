@@ -77,9 +77,71 @@
                     عودة
                 </button>
             </div>
+
         </div>
 
+        <div v-if="is_staff" class="my-4 ">
+            <label class="block font-bold mb-2">ترشيح لبرنامج</label>
+            <select v-model="submission_dat.program" class="form-select" @change="saveProgram">
+                <option value="">بدون ترشيح</option>
+                <optgroup v-for="f in groupedPrograms" :key="f.id" :label="f.name">
+                    <option v-for="p in f.programs" :value="p.id" :key="p.id">
+                        {{ p.sis_code }} - {{ p.name }}
+                    </option>
+                </optgroup>
+            </select>
+        </div>
+        <div v-if="submission_dat.program">
+            <div class="bg-green-100 text-green-800 p-2 rounded">
+                مرشح للبرنامج:
+                {{ getProgramName(submission_dat.program) }}
+            </div>
+            <button class="btn mt-2" @click="openFeesModal">دفع مصاريف الكلية</button>
+        </div>
         <!-- ✅ المودال -->
+        <Dialog v-model:visible="showFeesModal" modal header="دفع مصاريف الكلية" :style="{ width: '40rem' }">
+            <div v-if="availableFees.length">
+
+                <!-- ✅ المصاريف المتاحة للاختيار -->
+                <p>اختر المصاريف التي تريد دفعها:</p>
+                <div v-for="f in availableFees" :key="'available-' + f.id" class="flex items-center gap-2 my-2">
+                    <input type="checkbox" :value="f.id" v-model="selectedFeeIds" :disabled="f.is_requierd" checked />
+                    <span>
+                        {{ f.description }} - {{ f.amount }} EGP - {{ f.fee_list_title }}
+                        <span v-if="f.is_requierd" class="text-red-600">(إجباري)</span>
+                    </span>
+                </div>
+
+                <div class="mt-4 border-t pt-2 text-right">
+                    <p>المجموع بدون عمولة: <strong>{{ totalSelectedAmount.total }} جنيه</strong></p>
+                    <p>عمولة البنك: <strong>{{ totalSelectedAmount.bankFee }} جنيه</strong></p>
+                    <p class="text-lg mt-1">
+                        الإجمالي المطلوب: <strong class="text-green-700">{{ totalSelectedAmount.finalTotal }}
+                            جنيه</strong>
+                    </p>
+                </div>
+            </div>
+            <div v-else>
+                <p>لا توجد رسوم للدفع</p>
+            </div>
+
+            <!-- ✅ المصاريف المدفوعة للعرض فقط -->
+            <div v-if="paidFees.length" class="mt-4 border-t pt-4">
+                <p class="text-gray-700 font-semibold mb-2">المصاريف التي تم دفعها:</p>
+                <div v-for="f in paidFees" :key="'paid-' + f.id" class="flex items-center gap-2 my-1 text-gray-500">
+                    <input type="checkbox" checked disabled />
+                    <span>{{ f.description }} - {{ f.amount }} EGP</span>
+                </div>
+            </div>
+
+
+
+            <div class="flex justify-end mt-4 gap-2">
+                <Button label="إلغاء" severity="secondary" @click="showFeesModal = false" />
+                <Button v-if="availableFees.length" label="دفع" @click="paySelectedFees" />
+            </div>
+        </Dialog>
+
 
         <Dialog v-model:visible="visible" modal header="اضافة ملاحظة" :style="{ width: '25rem' }">
             <span class="text-surface-500 dark:text-surface-400 block mb-8">اضف ملاحظة للطلب رقم {{
@@ -99,7 +161,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, watch, watchEffect } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from '@/services/axios';
 import QuestionRenderer from '@/components/QuestionRenderer/QuestionRenderer.vue';
@@ -127,6 +189,7 @@ const submission_dat = ref({
     id: 0,
     notes: "",
     status: "",
+    program: "",
     is_archived: false,
     meta_data: {},
     answers: [],
@@ -138,6 +201,7 @@ const submission_dat = ref({
 });
 const is_locked = ref(false);
 const answers = reactive({});
+const questions = reactive({});
 const errors = reactive({});
 
 const submissionId = ref('');
@@ -148,6 +212,169 @@ const showNoteModal = ref(false);
 const noteContent = ref('');
 const selectedSubmission = ref(null);
 const visible = ref(false);
+
+
+const faculties = ref([]);
+const groupedPrograms = ref([]);
+
+const fetchProgramsAndFaculties = async () => {
+    const resFac = await axios.get('/api/users/faculties/');
+    const resProg = await axios.get('/api/users/programs/');
+    const facs = resFac.data.results || resFac.data;
+    const progs = resProg.data.results || resProg.data;
+
+    groupedPrograms.value = facs.map(fac => {
+        const facProgs = progs
+            .filter(p => p.faculty === fac.id || p.faculty?.id === fac.id)
+            .sort((a, b) => (a.sis_code || '').localeCompare(b.sis_code || ''));
+
+        const firstSisCode = facProgs.length ? (facProgs[0].sis_code || '') : '';
+        return {
+            id: fac.id,
+            name: fac.name,
+            firstSisCode,
+            programs: facProgs,
+        };
+    }).filter(f => f.programs.length > 0)
+        .sort((a, b) => a.firstSisCode.localeCompare(b.firstSisCode));
+};
+
+const showFeesModal = ref(false);
+const availableFees = ref([]);
+const selectedFeeIds = ref([]);
+const paidFees = ref([]);
+const availablePaiedFees = ref([]);
+const feesTypes = ref([]);
+const feesLists = ref([]);
+function getSelectedFeeTypeId(val) {
+    const type = feesTypes.value.find(t => t.value === val);
+    return type ? type.id : '';
+}
+function filterProgramFeesByType(typeValue, programFees, feesLists, feesTypes) {
+    // console.log("#############")
+    // console.log(typeValue)
+    // console.log(programFees)
+    // console.log(feesLists)
+    // console.log(feesTypes)
+    // console.log("#############")
+    if (!typeValue || !feesTypes.length || !feesLists.length || !programFees.length) return [];
+    // 1. نحصل على ID من feesTypes بناءً على الـ value
+    const type = feesTypes.find(t => t.value === typeValue);
+    if (!type) return [];
+
+    const typeId = type.id;
+
+    // 2. نحصل على IDs للـ fee lists اللي تنتمي لنوع المصروف المطلوب
+    const matchingFeeListIds = feesLists
+        .filter(feeList => feeList.fees_types?.id === typeId)
+        .map(feeList => feeList.id);
+
+    // 3. نفلتر programFees اللي fee_list فيها موجود ضمن الـ matching IDs
+    return programFees.filter(fee => matchingFeeListIds.includes(fee.fee_list));
+}
+const openFeesModal = async () => {
+    const res = await axios.get('/api/payments/program-fees/', {
+        params: {
+            academic_year: form.value.academic_year,
+            program: submission_dat.value.program,
+        }
+    });
+    var programFees = res.data.results || res.data;
+    const feesTypesRes = await axios.get('/api/payments/fees-types/')
+    feesTypes.value = feesTypesRes.data.results || feesTypesRes.data;
+    const feesListsRes = await axios.get('/api/payments/fees-list/')
+    feesLists.value = feesListsRes.data.results || feesListsRes.data;
+
+
+    programFees = programFees.map(fee => {
+        const matchedList = feesLists.value.find(f => f.id === fee.fee_list);
+        return {
+            ...fee,
+            fee_list_title: matchedList ? matchedList.title : '',
+        };
+    });
+
+
+    const paidFeesRes = await axios.get('/api/payments/fees/', {
+        params: { submission_id: submission_dat.value.id }
+    });
+    paidFees.value = paidFeesRes.data.results.filter(f => f.is_paid && f.fee_type == 'collage');
+
+
+    // استخراج الرسوم المتاحة (فقط مصاريف الكلية وغير مدفوعة)
+    availableFees.value = filterProgramFeesByType('collage', programFees, feesLists.value, feesTypes.value);
+    // availablePaiedFees.value = filterProgramFeesByType('collage', paidFees, feesLists.value, feesTypes.value);
+
+
+    const paidFeesListIds = paidFees.value.map(f => f.fees_list); // استخرج الـ fee_list من كل مدفوع
+
+    const filteredAvailableFees = availableFees.value.filter(fee =>
+        !paidFeesListIds.includes(fee.id)  // قارن مع الـ available fee.id لأنه يمثل نفس الـ fees_list
+    );
+
+    availableFees.value = filteredAvailableFees;
+
+    // console.log("availableFees")
+    // console.log("############")
+    // console.log(paidFees.value)
+    // console.log(availableFees.value)
+    // console.log("############")
+    selectedFeeIds.value = availableFees.value
+        .map(f => f.id);
+
+    showFeesModal.value = true;
+};
+
+const paySelectedFees = async () => {
+    if (!selectedFeeIds.value.length) return alert("اختر رسوم للدفع");
+
+    const feeResList = [];
+    let totalAmount = 0;
+
+    for (let feeId of selectedFeeIds.value) {
+        const feeObj = availableFees.value.find(f => f.id === feeId);
+        if (!feeObj) continue;
+        try {
+            // أضف رسوم إلى الطلب (fee object)
+            const feeRes = await axios.post('/api/payments/fees/add-to-submission/', {
+                submission_id: Number(submission_dat.value.id),
+                description: feeObj.fee_list_title,
+                amount: feeObj.amount,
+                fee_list_id: feeObj.id,
+                fee_type: 'collage',
+            });
+
+            // إجمع المبلغ الكلي
+            totalAmount += feeObj.amount;
+            feeResList.push(feeRes.data.id); // ← لازم تاخد ID من السيرفر
+        } catch (error) {
+            // console.error(`فشل إرسال الرسوم (${fee.description}):`, error);
+            // يمكنك أيضًا استخدام showToast أو أي إشعار للتنبيه
+        }
+    }
+
+    if (!feeResList.length) return alert("لم يتم إنشاء رسوم بنجاح");
+
+    // إنشاء الطلب والدفع
+    const payRes = await axios.post('/api/payments/initiate/', {
+        fee_ids: feeResList,
+        form_id: form.value.id,
+        submission_id: submission_dat.value.id,
+        order_type: 'collage',
+    });
+    localStorage.setItem('pending_payment_order', payRes.data.order_id);
+
+    window.location.href = payRes.data.redirect_url;
+};
+
+
+const getProgramName = (id) => {
+    for (let f of groupedPrograms.value) {
+        const p = f.programs.find(prog => prog.id === id);
+        if (p) return p.name;
+    }
+    return '';
+};
 
 const openNoteModal = () => {
     noteContent.value = submission_dat.value.notes || '';
@@ -167,6 +394,16 @@ const saveNote = async () => {
     } catch (err) {
 
         alert('فشل حفظ الملاحظات');
+    }
+};
+const saveProgram = async () => {
+    try {
+        await axios.patch(`api/admissions/submissions/${submission_dat.value.id}/`, {
+            program: submission_dat.value.program,
+        });
+    } catch (err) {
+
+        alert('فشل حفظ البرنامج');
     }
 };
 
@@ -196,6 +433,16 @@ const checkQuestionsn = (tab) => {
     return result;
 };
 
+const totalSelectedAmount = computed(() => {
+    const selectedFees = availableFees.value.filter(f => selectedFeeIds.value.includes(f.id));
+    const total = selectedFees.reduce((sum, f) => sum + parseFloat(f.amount || 0), 0);
+    const bankFee = Math.round((total * 0.01 + 2) * 100) / 100;
+    return {
+        total,
+        bankFee,
+        finalTotal: Math.round((total + bankFee) * 100) / 100,
+    };
+});
 const checkOptions = (index) => {
     const anss = answers;
     const tab = form.value.tabs[index];
@@ -306,6 +553,20 @@ function updateSectionVisibility() {
             section.meta_data.is_visible = res;
         });
     });
+    // console.log("قققققق")
+    const filteredAnswers = {};
+    const filteredQuestions = {};
+
+    for (const [id, answer] of Object.entries(answers)) {
+        if (answer !== null && answer !== '' && answer !== undefined) {
+            filteredAnswers[id] = answer;
+            filteredQuestions[id] = questions[id];  // خزن السؤال اللي إجابته موجودة فقط
+        }
+    }
+
+    localStorage.setItem('answers', JSON.stringify(filteredAnswers));
+    localStorage.setItem('questions', JSON.stringify(filteredQuestions));
+
 
     // console.log(JSON.stringify(form.value, null, 2));
 }
@@ -325,6 +586,7 @@ const fetchForm = async () => {
         form.value.tabs.forEach((tab) => {
             tab.sections.forEach((section) => {
                 section.questions.forEach((q) => {
+                    questions[q.id] = q.title;
                     answers[q.id] = '';
                     errors[q.id] = false;
                 });
@@ -335,6 +597,8 @@ const fetchForm = async () => {
         if (submissionId.value) {
             const res2 = await axios.get(`api/admissions/submissions/${submissionId.value}/`);
             submission_dat.value = res2.data;
+            localStorage.setItem(`submission_dat`, JSON.stringify(res2.data));
+
             is_locked.value = submission_dat.value.is_locked;
             submission_dat.value.answers.forEach((ans) => {
                 if (answers.hasOwnProperty(ans.question)) {
@@ -435,13 +699,13 @@ const goToSave = async (f_id, s_id, t_id) => {
     };
 
     await axios.put(`api/admissions/submissions/${s_id}/`, payload);
-
     // router.push(`/submissions/${f_id}/${s_id}/${t_id}`);
     mode.value = 'view';
 };
 onMounted(async () => {
     await fetchForm();
     updateSectionVisibility();
+    fetchProgramsAndFaculties();
 });
 function extractTitlesFromTabs(tabs) {
     const result = [];

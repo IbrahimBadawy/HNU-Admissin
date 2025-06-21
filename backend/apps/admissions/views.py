@@ -111,7 +111,7 @@ class SubmissionListViewSet(ReadOnlyModelViewSet):
     serializer_class = SubmissionListSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["form", "status", "is_paied", "is_locked", "is_archived"]
+    filterset_fields = ["form", "status", "is_paied", "is_paied_collage","is_locked", "is_archived","program"]
     search_fields = ["id", "form__title", "status", "notes", "user_identifier"]  # تأكد من وجود form__title
 
 

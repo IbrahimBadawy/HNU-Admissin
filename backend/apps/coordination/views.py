@@ -14,24 +14,7 @@ from django.db.models import Count,OuterRef, Exists, Q
 from django.db.models import OuterRef, Subquery
 
 
-from .models import AcademicYear,ProgramFee
-from .serializers import (
-    AcademicYearSerializer,
-    ProgramFeeSerializer,
-
-)
-
 
 # Create your views here.
 # coordination/views.py
-class AcademicYearViewSet(viewsets.ModelViewSet):
-    queryset = AcademicYear.objects.all()
-    serializer_class = AcademicYearSerializer
-    # permission_classes = [IsAuthenticated]
 
-class ProgramFeeViewSet(viewsets.ModelViewSet):
-    queryset = ProgramFee.objects.all()
-    serializer_class = ProgramFeeSerializer
-    # permission_classes = [IsAuthenticated]
-    filter_backends = [DjangoFilterBackend]  # ← فعل الفلترة هنا
-    filterset_fields = ['academic_year', 'program']  # ← دول الفلاتر المسموح بيها

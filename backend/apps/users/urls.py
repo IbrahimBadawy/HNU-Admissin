@@ -6,6 +6,8 @@ router = DefaultRouter()
 router.register(r"programs", ProgramViewSet, basename="program")
 router.register(r"faculties", FacultyViewSet, basename="faculty")
 router.register(r"universities", UniversityViewSet, basename="university")
+router.register(r'academic-years', AcademicYearViewSet,basename="academic-years")
+
 
 urlpatterns = [
     path("", include(router.urls)),

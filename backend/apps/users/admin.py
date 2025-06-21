@@ -48,3 +48,7 @@ class UserDataAccessAdmin(admin.ModelAdmin):
     list_display = ("user", "university", "faculty", "program")
     list_filter = ("university", "faculty", "program")
     search_fields = ("user__username",)
+
+@admin.register(AcademicYear)
+class AcademicYearAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "start_date", "end_date","sis_add")

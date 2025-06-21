@@ -6,13 +6,22 @@ from .views import (
     PaymentViewSet,
     InitiatePaymentView,
     PaymentCheckView,
-    PaymentRedirectView
+    PaymentRedirectView,
+    FeesTypesViewSet,
+    FeesListViewSet,
+    ProgramFeeViewSet
 )
-
+ 
 router = DefaultRouter()
 router.register(r"fees", FeeViewSet, basename="fee")
 router.register(r"orders", OrderViewSet, basename="order")
 router.register(r"payments", PaymentViewSet, basename="payment")
+router.register(r'program-fees', ProgramFeeViewSet)
+
+router.register(r"fees-list", FeesListViewSet, basename="fees-list")
+router.register(r"fees-types", FeesTypesViewSet, basename="fees-types")
+
+
 
 urlpatterns = [
     path("", include(router.urls)),

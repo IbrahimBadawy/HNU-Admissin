@@ -6,7 +6,7 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import Program
+from .models import Program,AcademicYear
 from .serializers import *
 from .permissions import *
 from rest_framework.decorators import api_view, permission_classes
@@ -121,3 +121,9 @@ def set_user_password(request):
         return Response({"success": True}, status=200)
     except User.DoesNotExist:
         return Response({"error": "User not found"}, status=404)
+
+
+class AcademicYearViewSet(viewsets.ModelViewSet):
+    queryset = AcademicYear.objects.all()
+    serializer_class = AcademicYearSerializer
+    # permission_classes = [IsAuthenticated]

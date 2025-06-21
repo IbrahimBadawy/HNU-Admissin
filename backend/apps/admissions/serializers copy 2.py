@@ -141,7 +141,6 @@ class FormSerializer(serializers.ModelSerializer):
             validated_data.pop("modified_at", None)
 
             instance.title = validated_data.get("title", instance.title)
-            instance.academic_year = validated_data.get("academic_year", instance.academic_year)
             instance.is_active = validated_data.get("is_active", instance.is_active)
             instance.save()
 

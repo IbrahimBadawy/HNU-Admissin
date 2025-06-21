@@ -9,8 +9,8 @@ class Form(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     is_archived = models.BooleanField(default=False)
     academic_year = models.ForeignKey(
-        "coordination.AcademicYear",
-        default='1',
+        "users.AcademicYear",
+        default='',
         related_name="academic_year",
         blank=True,
         null=True,
@@ -101,6 +101,11 @@ class FormSubmission(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
     notes = models.TextField(blank=True, null=True)
     is_paied = models.BooleanField(default=False, null=True, blank=True)
+    is_paied_collage = models.BooleanField(default=False, null=True, blank=True)
+
+    program = models.ForeignKey(
+        "users.Program", related_name="program", on_delete=models.SET_NULL,default='',null=True
+    )
 
     modified_at = models.DateTimeField(auto_now=True)
     submitted_at = models.DateTimeField(auto_now_add=True)

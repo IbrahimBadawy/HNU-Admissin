@@ -98,6 +98,8 @@ const routes: RouteRecordRaw[] = [
         name: 'coordination-years',
         component: () => import('@/components/coordination/AcademicYears.vue'),
     },
+
+    
     // authentication
     {
         path: '/auth/signin',
